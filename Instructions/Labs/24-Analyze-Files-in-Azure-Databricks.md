@@ -77,8 +77,8 @@ Azure Databricks 是一个分布式处理平台，可使用 Apache Spark 群集�
 与许多 Spark 环境一样，Databricks 支持使用笔记本来合并笔记和交互式代码单元格，可用于探索数据。
 
 1. 展开左侧边栏，并选择“工作区”选项卡。然后选择“Users”文件夹，然后在“&#8962; your_user_name”文件夹的“&#9662;”菜单中，选择“导入”    。
-2. 在“导入笔记本”对话框中，选择“URL”，然后从 `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/24/Databricks-Spark.dbc` 导入笔记本 。
-3. 选择“&#8962;主页”，然后打开刚刚导入的“使用 Spark 分析基于文件的数据”笔记本 。
+2. 在“导入笔记本”对话框中，选择“URL”，然后从 `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/24/Databricks-Spark.ipynb` 导入笔记本 。
+3. 选择“&#8962;主页”，然后打开刚刚导入的“Databricks-Spark”笔记本 。
 4. 确保笔记本已附加到“用户名”的群集，并按照其包含的说明进行操作；然后运行它包含的单元格以探索文件中的数据。
 
 ## 删除 Azure Databricks 资源

@@ -54,8 +54,8 @@ lab:
 2. 在 databricksxxxxxxx 的“概述”页中，使用“启动工作区”按钮在新的浏览器标签页中打开 Azure Databricks 工作区；并在出现提示时登录。
 3. 如果显示“当前数据项目是什么？”消息，请选择“完成”将其关闭 。 然后查看 Azure Databricks 工作区门户，注意左侧边栏包含可执行的各种任务的图标。 展开边栏可显示任务类别的名称。
 4. 展开边栏，并选择“工作区”选项卡。然后选择“Users”文件夹，然后在“&#8962; your_user_name”文件夹的“&#9662;”菜单中，选择“导入”    。
-5. 在“导入笔记本”对话框中，选择“URL”，然后从 `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/27/Process-Data.dbc` 导入笔记本 
-6. 选择“&#8962;主页”，然后打开刚刚导入的“处理数据”笔记本 。
+5. 在“导入笔记本”对话框中，选择“URL”，然后从 `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/27/Process-Data.ipynb` 导入笔记本 
+6. 选择“&#8962;主页”，然后打开刚刚导入的“Process-Data”笔记本 。
 
     注意：如果显示提示，请使用“知道了”按钮将其关闭 。 这适用于今后首次导航工作区界面时可能显示的任何提示。
 
@@ -116,7 +116,7 @@ lab:
     - Azure Databricks：
         - Databricks 链接服务：选择之前创建的 AzureDatabricks 链接服务**
     - 设置：
-        - 笔记本路径：浏览到“Users/your_user_name”文件夹，然后选择“处理数据”笔记本* *
+        - 笔记本路径：浏览到 Users/your_user_name 文件夹，然后选择“Process-Data”笔记本* *
         - 基参数：添加名为“folder”的新参数，其值为“product_data”* *
 6. 使用管道设计器图面上方的“验证”按钮验证管道。 然后使用“全部发布”按钮发布（保存）。
 
