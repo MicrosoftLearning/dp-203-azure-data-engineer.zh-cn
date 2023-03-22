@@ -1,0 +1,13 @@
+.create table sales (
+    SalesOrderNumber: string,
+    SalesOrderLineItem: int,
+    OrderDate: datetime,
+    CustomerName: string,
+    EmailAddress: string,
+    Item: string,
+    Quantity: int,
+    UnitPrice: real,
+    TaxAmount: real)
+
+.ingest into table sales 'https://raw.githubusercontent.com/microsoftlearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/files/sales.csv' 
+with (ignoreFirstRecord = true)
