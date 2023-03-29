@@ -13,5 +13,5 @@ layout: home
 {% assign labs = site.pages | where_exp:"page", "page.url contains '/Instructions/Labs'" %}
 | 练习 | 在 ILT 中，这是… |
 | --- | --- |
-{% 表示实验室 % 中的活动}| [{{ activity.lab.title }}{% if activity.lab.type %} - {{ activity.lab.type }}{% endif %}]({{ site.github.url }}{{ activity.url }}) | {{ activity.lab.ilt-use }} |
+{% for activity in labs  %}| [{{ activity.lab.title }}{% if activity.lab.type %} - {{ activity.lab.type }}{% endif %}]({{ site.github.url }}{{ activity.url }}) | {{ activity.lab.ilt-use }} |
 {% endfor %}
