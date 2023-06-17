@@ -62,7 +62,7 @@ Azure Synapse Analytics 让你能够通过创建湖数据库，将数据湖中�
 6. 在 + 菜单中，选择“湖数据库”打开一个新选项卡，你可以在其中设计数据库架构（如果系统提示，接受数据库模板使用条款） 。
 7. 在新数据库的“属性”窗格中，将“名称”更改为“RetailDB”，并验证“输入文件夹”属性是否已自动更新为 files/RetailDB    。 将“数据格式”保留为“带分隔符的文本”（也可以使用 Parquet 格式，并且可以替代单个表的文件格式 - 我们将在本练习中使用逗号分隔的数据。 ）
 8. 在“RetailDB”窗格顶部，选择“发布”以保存当前数据库 。
-9. 在左侧的“数据”窗格中，查看“链接”选项卡。然后展开“Azure Data Lake Storage Gen2”和 synapse*xxxxxxx* 工作区的主 datalake*xxxxxxx* 存储区，然后选择“文件”文件系统；该文件系统当前包含名为 synapse 的文件夹      。
+9. 在左侧的“数据”窗格中，查看“链接”选项卡。然后展开“Azure Data Lake Storage Gen2”和 synapse*xxxxxxx* 工作区的主 datalake*xxxxxxx* 存储区，然后选择“files”文件系统；该文件系统当前包含名为 synapse 的文件夹      。
 10. 在已打开的“文件”选项卡中，使用“+ 新建文件夹”按钮创建名为 RetailDB 的新文件夹 - 这是数据库中表使用的数据文件的输入文件夹  。
 
 ## 创建表
@@ -72,37 +72,37 @@ Azure Synapse Analytics 让你能够通过创建湖数据库，将数据湖中�
 ### 定义表架构
 
 1. 切换回数据库定义的“RetailDB”选项卡，在“+ 表”列表中选择“自定义”，并注意将名为“Table_1”的新表添加到数据库中   。
-2. 选中“Table_1”后，在数据库设计画布下的“常规”选项卡中，将“名称”属性更改为“客户”   。
+2. 选中“Table_1”后，在数据库设计画布下的“常规”选项卡中，将“名称”属性更改为“Customer”   。
 3. 展开“表的存储设置”部分，请注意，该表将以带分隔符的文本的形式存储在 Synapse 工作区的默认数据湖存储的 files/RetailDB/Customer 文件夹中 。
 4. 在“列”选项卡上，请注意，默认情况下，表包含一个名为 Column_1 的列 。 编辑列定义以匹配以下属性：
 
     | 名称 | 键 | 说明 | 可空性 | 数据类型 | 格式/长度 |
     | ---- | ---- | ----------- | ----------- | --------- | --------------- |
-    | CustomerId | PK &#128505; | 唯一客户 ID | &#128454;  | long | |
+    | CustomerId | PK &#128505; | Unique customer ID | &#128454;  | long | |
 
 5. 在“+ 列”列表中，选择“新建列”，然后修改新列定义以将 FirstName 列添加到表中，如下所示  ：
 
     | 名称 | 键 | 说明 | 可空性 | 数据类型 | 格式/长度 |
     | ---- | ---- | ----------- | ----------- | --------- | --------------- |
     | CustomerId | PK &#128505; | 唯一客户 ID | &#128454;  | long | |
-    | **名字** | **PK &#128454;** | **客户名字** | **&#128454;** | **string** | **256** |
+    | **FirstName** | **PK &#128454;** | **Customer first name** | **&#128454;** | **string** | **256** |
 
 6. 添加更多新列，直到表定义如下所示：
 
     | 名称 | 键 | 说明 | 可空性 | 数据类型 | 格式/长度 |
     | ---- | ---- | ----------- | ----------- | --------- | --------------- |
-    | CustomerId | PK &#128505; | 唯一客户 ID | &#128454;  | long | |
-    | FirstName | PK &#128454; | 客户名字 | &#128454; | 字符串 | 256 |
-    | LastName | PK &#128454; | 客户姓氏 | &#128505; | 字符串 | 256 |
-    | EmailAddress | PK &#128454; | 客户电子邮件 | &#128454; | 字符串 | 256 |
-    | 电话 | PK &#128454; | 客户电话 | &#128505; | 字符串 | 256 |
+    | CustomerId | PK &#128505; | Unique customer ID | &#128454;  | long | |
+    | FirstName | PK &#128454; | Customer first name | &#128454; | string | 256 |
+    | LastName | PK &#128454; | Customer last name | &#128505; | string | 256 |
+    | EmailAddress | PK &#128454; | Customer email | &#128454; | string | 256 |
+    | Phone | PK &#128454; | Customer phone | &#128505; | string | 256 |
 
 7. 添加所有列后，再次发布数据库以保存更改。
 8. 在左侧的“数据”窗格中，切换回“工作区”选项卡，以便可以看到 RetailDB 湖数据库  。 然后展开它并刷新其 Tables 文件夹，以查看新创建的 Customer 表 。
 
 ### 将数据加载到表的存储路径中
 
-1. 在主窗格中，切换回“文件”选项卡，其中包含带有 RetailDB 文件夹的文件系统 。 然后打开 RetailDB 文件夹，并在其中创建名为 Customer 的新文件夹 。 这是 Customer 表获取其数据的位置。
+1. 在主窗格中，切换回“files”选项卡，其中包含带有 RetailDB 文件夹的文件系统 。 然后打开 RetailDB 文件夹，并在其中创建名为 Customer 的新文件夹 。 这是 Customer 表获取其数据的位置。
 2. 打开新的 Customer 文件夹，该文件夹应为空。
 3. 从 [https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/04/data/customer.csv](https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/04/data/customer.csv) 下载 customer.csv 数据文件，并将其保存在本地计算机上的文件夹中（位置无关紧要）。 然后，在 Synapse Explorer 的 Customer 文件夹中，使用“&#10514; 上传”按钮将 customer.csv 文件上传到数据湖中的 RetailDB/Customer 文件夹   。
 
