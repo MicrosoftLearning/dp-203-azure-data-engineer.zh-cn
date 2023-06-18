@@ -77,7 +77,7 @@ lab:
 ### 创建包含数据流活动的管道
 
 1. 在 Synapse Studio 中，选择“集成”页。 然后在“+”菜单中，选择“管道”以创建新的管道 。
-2. 在新管道的“属性”窗格中，将其名称从“Pipeline1”更改为“加载产品数据”  。 然后使用“属性”窗格上方的“属性”按钮将其隐藏 。
+2. 在新管道的“属性”窗格中，将其名称从“Pipeline1”更改为“Load Product Data”  。 然后使用“属性”窗格上方的“属性”按钮将其隐藏 。
 3. 在“活动”窗格中，展开“移动和转换”；然后将一个数据流拖动到管道设计图面，如下所示  ：
 
     ![管道的屏幕截图，其中包含数据流活动。](./images/dataflow.png)
@@ -98,11 +98,11 @@ lab:
 
 1. 在数据流设计图面的“添加源”下拉列表中，选择“添加源” 。 然后，按如下所示配置源设置：
     - 输出流名称：ProductsText
-    - 说明：产品文本数据
-    - 源类型：集成数据集
+    - 说明：Products text data
+    - 源类型：Products text data
     - 数据集：添加具有以下属性的新数据集：
         - 类型：Azure Datalake Storage Gen2
-        - 格式：带分隔符的文本
+        - 格式：Delimited text
         - 名称：Products_Csv
         - 链接服务：synapse xxxxxxx-WorkspaceDefaultStorage
         - 文件路径：files/data/Product.csv
@@ -110,22 +110,22 @@ lab:
         - 导入架构：从连接/存储
     - 允许架构偏差：已选择
 2. 在新的 ProductsText 源的“投影”选项卡上，设置以下数据类型 ：
-    - ProductID：字符串
-    - ProductName：字符串
-    - Color：字符串
-    - Size：字符串
-    - ListPrice：十进制
-    - Discontinued：布尔值
+    - ProductID：string
+    - ProductName：string
+    - Color：string
+    - Size：string
+    - ListPrice：decimal
+    - Discontinued：boolean
 3. 添加具有以下属性的第二个源：
     - 输出流名称：ProductTable
-    - 说明：产品表
+    - 说明：Product table
     - 源类型：集成数据集
     - 数据集：添加具有以下属性的新数据集：
         - 类型：Azure Synapse Analytics
         - 名称：DimProduct
         - 链接服务：创建具有以下属性的新链接服务：
             - 名称：Data_Warehouse
-            - 说明：专用 SQL 池
+            - 说明：Dedicated SQL pool
             - 通过集成运行时连接：AutoResolveIntegrationRuntime
             - 帐户选择方式：从 Azure 订阅
             - Azure 订阅：选择自己的 Azure 订阅
@@ -137,13 +137,13 @@ lab:
         - 导入架构：从连接/存储
     - 允许架构偏差：已选择
 4. 在新的 ProductTable 源的“投影”选项卡上，验证是否已设置以下数据类型 ：
-    - ProductKey：整数
-    - ProductAltKey：字符串
-    - ProductName：字符串
-    - Color：字符串
-    - Size：字符串
-    - ListPrice：十进制
-    - Discontinued：布尔值
+    - ProductKey：integer
+    - ProductAltKey：string
+    - ProductName：string
+    - Color：string
+    - Size：string
+    - ListPrice：decimal
+    - Discontinued：boolean
 5. 验证数据流是否包含两个源，如下图所示：
 
     ![包含两个源的数据流的屏幕截图。](./images/dataflow_sources.png)
@@ -157,7 +157,7 @@ lab:
     - 主流：ProductText
     - 查找流：ProductTable
     - 匹配多行：<u>未</u>选择
-    - 匹配依据：最后一行
+    - 匹配依据：末行
     - 排序条件：ProductKey 升序
     - 查找条件：ProductID == ProductAltKey
 3. 验证数据流是否如下所示：
@@ -168,10 +168,10 @@ lab:
 
 ### 添加更改行
 
-1. 选择 MatchedProducts 查找右下角的 + 图标，然后选择“更改行”  。
+1. 选择 MatchedProducts 查找右下角的 + 图标，然后选择“Alter行”  。
 2. 按如下所示配置更改行设置：
     - 输出流名称：SetLoadAction
-    - 说明：插入新项，更新插入现有项
+    - 说明：Insert new, upsert existing
     - 传入流：MatchedProducts
     - 更改行条件：编辑现有条件，并使用 + 按钮添加第二个条件，如下所示（请注意，表达式要区分大小写）：
         - InsertIf：`isNull(ProductKey)`
@@ -187,19 +187,19 @@ lab:
 1. 选择 SetLoadAction 更改行步骤右下角的 + 图标，然后选择“接收器”  。
 2. 按如下所示配置“接收器”属性：
     - 输出流名称：DimProductTable
-    - 说明：加载 DimProduct 表
+    - 说明：加载 Load DimProduct table
     - 传入流：SetLoadAction
     - 接收器类型：集成数据集
     - 数据集：DimProduct
     - 允许架构偏差：已选择
 3. 在新的 DimProductTable 接收器的“设置”选项卡上，指定以下设置 ：
     - 更新方式：选择“允许插入”和“允许更新插入” 。
-    - 键列：选择“列列表”，然后选择“ProductAltKey”列 。
+    - 键列：选择“列的列表”，然后选择“ProductAltKey”列 。
 4. 在新的 DimProductTable 接收器的“映射”选项卡上，清除“自动映射”复选框，并仅指定以下列映射  <u></u>：
     - ProductID：ProductAltKey
     - ProductsText@ProductName: ProductName
     - ProductsText@Color: Color
-    - ProductsText@Size: 大小
+    - ProductsText@Size: Size
     - ProductsText@ListPrice: ListPrice
     - ProductsText@Discontinued: Discontinued
 5. 验证数据流是否如下所示：
@@ -220,12 +220,12 @@ lab:
 现在可发布并运行管道。
 
 1. 使用“全部发布”按钮发布管道（以及任何其他未保存的资产）。
-2. 发布完成后，关闭“LoadProductsData”数据流窗格并返回到“加载产品数据”管道窗格 。
+2. 发布完成后，关闭“LoadProductsData”数据流窗格并返回到“Load Product Data”管道窗格 。
 3. 在管道设计器窗格顶部的“添加触发器”菜单中，选择“立即触发” 。 然后选择“确定”，确认要运行管道。
 
     注意：还可以创建触发器，在计划的时间或响应特定事件时运行管道。
 
-4. 管道开始运行时，在“监视”页上，查看“管道运行”选项卡，并查看“加载产品数据”管道的状态  。
+4. 管道开始运行时，在“监视”页上，查看“管道运行”选项卡，并查看“Load Product Data”管道的状态  。
 
     管道运行可能需要 5 分钟或更长时间才能完成。 可以使用工具栏上的“&#8635;刷新”按钮检查管道状态。
 

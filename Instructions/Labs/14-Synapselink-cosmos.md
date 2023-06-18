@@ -152,7 +152,7 @@ Azure Synapse Link for Azure Cosmos DB 是一种云原生混合事务分析处�
 
 6. 继续，并使用以下设置创建新的 Cosmos DB 连接：
     - 名称：AdventureWorks
-    - 说明：AdventureWorks Cosmos DB 数据库
+    - 说明：AdventureWorks Cosmos DB database
     - 通过集成运行时连接：AutoResolveIntegrationRuntime
     - 身份验证类型：帐户密钥
     - 连接字符串：已选择

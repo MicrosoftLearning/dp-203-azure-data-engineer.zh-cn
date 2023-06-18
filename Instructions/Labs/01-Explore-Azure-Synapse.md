@@ -86,9 +86,9 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 2. 在“复制数据”工具的“属性”步骤上，确保已选中“内置复制任务”和“立即运行一次”，然后单击“下一步 >”。
 3. 在“源”步骤的“数据集”子步骤中，选择以下设置：
     -               源类型：全部
-    -               连接：创建新的连接，然后在显示的“链接服务”窗格中，在“文件”选项卡上，选择“HTTP”。然后，使用以下设置继续并创建与数据文件的连接：
-        - 名称：产品
-        - 说明：通过 HTTP 提供的产品列表
+    -               连接：创建新的连接，然后在显示的“新建连接”窗格中，在“文件”选项卡上，选择“HTTP”。然后，使用以下设置继续并创建与数据文件的连接：
+        - 名称：Products
+        - 说明：Product list via HTTP
         - 通过集成运行时连接：AutoResolveIntegrationRuntime
         - 基 URL：`https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/adventureworks/products.csv`
         - 服务器证书验证：启用
@@ -96,7 +96,7 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 4. 创建连接后，在“源数据存储”页面上，确保选择了以下设置，然后选择“下一步 >” ：
     - 相对 URL：留空
     - 请求方法：GET
-    - 其他标题：留空
+    - 其他页眉：留空
     - 二进制副本：处于<u>未</u>选择状态
     - 请求超时：留空
     - 最大并发连接数：留空
@@ -105,35 +105,35 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
     - **文件格式**： DelimitedText
     - 列分隔符：逗号 (,)
     - 行分隔符：换行符 (\n)
-    - 首行用作标题：已选择
+    - 第一行作为页眉：已选择
     - 压缩类型：无
-7. 在“目标”步骤的“数据集”子步骤中，选择以下设置：
+7. 在“目的地”步骤的“数据集”子步骤中，选择以下设置：
     - 目标类型：Azure Data Lake Storage Gen 2
     -               连接：选择与数据湖存储的现有连接，（这是在你创建工作区时为你创建的）。
-8. 选择连接后，在“目标/数据集”步骤中，确保选择以下设置，然后选择“下一步 >” ：
+8. 选择连接后，在“目的地/数据集”步骤中，确保选择以下设置，然后选择“下一步 >” ：
     - 文件夹路径：files/product_data
     - 文件名：products.csv
     - 复制行为：无
     - 最大并发连接数：留空
     - 块大小 (MB)：留空
-9. 在“目标”步骤的“配置”子步骤的“文件格式设置”页面上，确保已选择以下属性  。 然后选择“下一步 >”：
+9. 在“目的地”步骤的“配置”子步骤的“文件格式设置”页面上，确保已选择以下属性  。 然后选择“下一步 >”：
     - **文件格式**： DelimitedText
     - 列分隔符：逗号 (,)
     - 行分隔符：换行符 (\n)
-    - 将标题添加到文件：已选择
+    - 将页眉添加到文件：已选择
     - 压缩类型：无
     - 每个文件的最大行数：留空
     - 文件名前缀：留空
 10. 在“设置”步骤上，输入以下设置，然后单击“下一步 >”：
-    - 任务名称：复制产品
-    - 任务说明：复制产品数据
+    - 任务名称：Copy products
+    - 任务说明：Copy products data
     - 容错：留空
     - 启用日志记录：处于<u>未</u>选择状态
     - 启用暂存：处于<u>未</u>选择状态
-11. 在“查看并完成”步骤的“查看”子步骤上，阅读摘要，然后单击“下一步 >”。
+11. 在“审阅并完成”步骤的“审阅”子步骤上，阅读摘要，然后单击“下一步 >”。
 12. 在“部署”步骤中，等待管道部署完成，然后单击“完成”。
-13. 在 Synapse Studio 中，选择“监视”页，然后在“管道运行”选项卡中等待“复制产品”管道完成，状态为“成功”（可以使用“管道运行”页上的“&#8635; 刷新”按钮来刷新状态）    。
-14. 查看“集成”页面，并验证其现在是否包含一个名为“复制产品”的管道 。
+13. 在 Synapse Studio 中，选择“监视”页，然后在“管道运行”选项卡中等待“Copy products”管道完成，状态为“成功”（可以使用“管道运行”页上的“&#8635; 刷新”按钮来刷新状态）    。
+14. 查看“集成”页面，并验证其现在是否包含一个名为“Copy products”的管道 。
 
 ### 查看引入的数据
 
@@ -169,9 +169,9 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 
     | C1 | C2 | C3 | C4 |
     | -- | -- | -- | -- |
-    | ProductID | ProductName | 类别 | ListPrice |
-    | 771 | Mountain-100 Silver, 38 | 山地自行车 | 3399.9900 |
-    | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
+    | ProductID | ProductName | Category | ListPrice |
+    | 771 | Mountain-100 Silver, 38 | Mountain Bikes | 3399.9900 |
+    | 772 | Mountain-100 Silver, 42 | Mountain Bikes | 3399.9900 |
     | ... | ... | ... | ... |
 
 5. 请注意，结果由名为 C1、C2、C3 和 C4 的四列组成；结果中的第一行包含数据字段的名称。 要解决此问题，请将 HEADER_ROW = TRUE 参数添加到 OPENROWSET 函数，如下所示（将 datalakexxxxxxx 替换为数据湖存储帐户的名称），然后重新运行查询：
@@ -190,10 +190,10 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 
     现在，结果如下所示：
 
-    | ProductID | ProductName | 类别 | ListPrice |
+    | ProductID | ProductName | Category | ListPrice |
     | -- | -- | -- | -- |
-    | 771 | Mountain-100 Silver, 38 | 山地自行车 | 3399.9900 |
-    | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
+    | 771 | Mountain-100 Silver, 38 | Mountain Bikes | 3399.9900 |
+    | 772 | Mountain-100 Silver, 42 | Mountain Bikes | 3399.9900 |
     | ... | ... | ... | ... |
 
 6. 按如下方式修改查询（将 datalakexxxxxxx 替换为数据湖存储帐户的名称）：
@@ -213,28 +213,28 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 
 7. 运行修改后的查询，它应该返回一个包含每个类别中产品数量的结果集，如下所示：
 
-    | 类别 | ProductCount |
+    | Category | ProductCount |
     | -- | -- |
     | Bib Shorts | 3 |
-    | 自行车车架 | 1 |
+    | Bike Racks | 1 |
     | ... | ... |
 
-8. 在“SQL 脚本 1”的“属性”窗格中，将“名称”更改为“产品计数(按类别)”。 然后在工具栏中，选择“发布”以保存脚本。
+8. 在“SQL script 1”的“属性”窗格中，将“名称”更改为“Count Products by Category”。 然后在工具栏中，选择“发布”以保存脚本。
 
-9. 关闭“产品计数(按类别)”脚本窗格。
+9. 关闭“Count Products by Category”脚本窗格。
 
-10. 在 Synapse Studio 中，选择“开发”页，注意到已发布的“产品计数(按类别)”SQL 脚本已保存在那里。
+10. 在 Synapse Studio 中，选择“开发”页，注意到已发布的“Count Products by Category”SQL 脚本已保存在那里。
 
-11. 选择“产品计数(按类别)”SQL 脚本以重新打开它。 然后，确保该脚本已连接到”内置”SQL 池，并运行它来检索产品计数。
+11. 选择“Count Products by Category”SQL 脚本以重新打开它。 然后，确保该脚本已连接到”内置”SQL 池，并运行它来检索产品计数。
 
 12. 在“结果”窗格中，选择“图表”视图，然后为图表选择以下设置：
-    - 图表类型：柱形图
-    - 类别列：类别
-    - 图例(系列)列：ProductCount
-    - 图例位置：靠下居中
-    - 图例(系列)标签：留空
-    - 图例(系列)最小值：留空
-    - 图例(系列)最大值：留空
+    - 图表类型：列
+    - 类别列：Category
+    - 图例(序列)列：ProductCount
+    - 图例位置：底层中间
+    - 图例(序列)标签：留空
+    - 图例(序列)最小值：留空
+    - 图例(序列)最大值：留空
     - 类别标签：留空
 
     生成的图表应如下所示：
@@ -245,8 +245,8 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 
 虽然 SQL 是用于查询结构化数据集的常见语言，但许多数据分析师发现，像 Python 这样的语言对研究和准备数据用于分析很有用。 在 Azure Synapse Analytics 中，可以在 Spark 池中运行 Python（及其其他）代码；它使用了基于 Apache Spark 的分布式数据处理引擎。
 
-1. 在 Synapse Studio 中，如果之前打开的包含“products.csv”文件的“文件”选项卡已关闭，请在“数据”页上浏览“product_data”文件夹   。 然后右键单击“products.csv”，指向“新建笔记本”，然后选择“加载到数据帧”。
-2. 在打开的“笔记本 1”窗格中，在“附加到”列表中，选择 Spark 池“sparkxxxxxxx”，并确保“语言”设置为“PySpark (Python)”    。
+1. 在 Synapse Studio 中，如果之前打开的包含“products.csv”文件的“文件”选项卡已关闭，请在“数据”页上浏览“product_data”文件夹   。 然后右键单击“products.csv”，指向“新建笔记本”，然后选择“加载到 DataFrame”。
+2. 在打开的“Notebook 1”窗格中，在“附加到”列表中，选择 Spark 池“sparkxxxxxxx”，并确保“语言”设置为“PySpark (Python)”    。
 3. 查看笔记本中的第一个（也是唯一一个）单元格中的代码，它应该如下所示：
 
     ```Python
@@ -263,9 +263,9 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 
     | c0 | c1 | _c2_ | _c3_ |
     | -- | -- | -- | -- |
-    | ProductID | ProductName | 类别 | ListPrice |
-    | 771 | Mountain-100 Silver, 38 | 山地自行车 | 3399.9900 |
-    | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
+    | ProductID | ProductName | Category | ListPrice |
+    | 771 | Mountain-100 Silver, 38 | Mountain Bikes | 3399.9900 |
+    | 772 | Mountain-100 Silver, 42 | Mountain Bikes | 3399.9900 |
     | ... | ... | ... | ... |
 
 6. 取消注释“,header=True”这一行（因为 products.csv 文件的第一行包含列标题），因此代码如下所示：
@@ -281,10 +281,10 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 
 7. 重新运行单元格，并验证结果是否如下所示：
 
-    | ProductID | ProductName | 类别 | ListPrice |
+    | ProductID | ProductName | Category | ListPrice |
     | -- | -- | -- | -- |
-    | 771 | Mountain-100 Silver, 38 | 山地自行车 | 3399.9900 |
-    | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
+    | 771 | Mountain-100 Silver, 38 | Mountain Bikes | 3399.9900 |
+    | 772 | Mountain-100 Silver, 42 | Mountain Bikes | 3399.9900 |
     | ... | ... | ... | ... |
 
     请注意，再次运行单元格所花的时间会更短，因为 Spark 池已经启动了。
@@ -299,17 +299,17 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 
 10. 通过单击“▷”图标来运行新代码单元格，并查看结果，结果应如下所示：
 
-    | 类别 | count |
+    | Category | count |
     | -- | -- |
-    | 耳机 | 3 |
-    | 车轮 | 14 |
+    | Headsets | 3 |
+    | Wheels | 14 |
     | ... | ... |
 
 11. 在单元格的结果输出中，选择“图表”视图。 生成的图表应如下所示：
 
     ![显示类别计数图表视图的图像](./images/bar-chart.png)
 
-12. 如果尚不可见，请选择工具栏右侧的“属性”按钮（看起来类似于“&#128463;<sub>*</sub>”）以显示“属性”页面  。 然后在“属性”窗格中，将笔记本名称更改为“浏览产品”并使用工具栏上的“发布”按钮进行保存  。
+12. 如果尚不可见，请选择工具栏右侧的“属性”按钮（看起来类似于“&#128463;<sub>*</sub>”）以显示“属性”页面  。 然后在“属性”窗格中，将笔记本名称更改为“Explore products”并使用工具栏上的“发布”按钮进行保存  。
 
 13. 关闭笔记本窗格，并在出现提示时停止 Spark 会话。 然后查看“开发”页面以验证笔记本是否已保存。
 
@@ -335,7 +335,7 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
     ```
 
 7. 使用“&#9655; 运行”按钮运行修改后的查询，返回按年和月销售的每种产品的数量。
-8. 如果尚不可见，请选择工具栏右侧的“属性”按钮（看起来类似于“&#128463;<sub>*</sub>”）以显示“属性”页面  。 然后在“属性”窗格中，将查询名称更改为“聚合产品销售”并使用工具栏上的“发布”按钮进行保存  。
+8. 如果尚不可见，请选择工具栏右侧的“属性”按钮（看起来类似于“&#128463;<sub>*</sub>”）以显示“属性”页面  。 然后在“属性”窗格中，将查询名称更改为“Aggregate product sales ”并使用工具栏上的“发布”按钮进行保存  。
 
 9. 关闭查询窗格，然后查看“开发”页面以验证 SQL 脚本是否已保存。
 
