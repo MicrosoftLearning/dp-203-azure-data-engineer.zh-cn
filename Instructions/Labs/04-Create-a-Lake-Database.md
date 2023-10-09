@@ -50,20 +50,33 @@ Azure Synapse Analytics 让你能够通过创建湖数据库，将数据湖中�
 
 8. 等待脚本完成 - 此过程通常需要大约 10 分钟；但在某些情况下可能需要更长的时间。 在等待时，请查看 Azure Synapse Analytics 文档中的[湖数据库](https://docs.microsoft.com/azure/synapse-analytics/database-designer/concepts-lake-database)和[湖数据库模板](https://docs.microsoft.com/azure/synapse-analytics/database-designer/concepts-database-templates)文章。
 
+## 修改容器权限
+
+1. 部署脚本完成后，在 Azure 门户转到它创建的 dp203-*xxxxxxx* 资源组，请注意，此资源组包含 Synapse 工作区、数据湖的存储帐户和 Apache Spark 池。
+1. 为名为 datalakexxxxxxx 的数据湖选择“存储帐户”  
+
+     ![从数据湖导航到容器](./images/datalakexxxxxx-storage.png)
+
+1. 在 datalakexxxxxx 容器中，选择“文件文件夹” 
+
+    ![选择 Data Lake 容器中的“文件文件夹”](./images/dp203-Container.png)
+
+1. 在“文件文件夹”中，会显示“身份验证方法:”为“访问密钥(切换到 Azure AD 用户帐户)”，单击此项更改为“Azure AD 用户帐户”。 
+
+    ![更改为“Azure AD 用户帐户”](./images/dp203-switch-to-aad-user.png)
 ## 创建 Lake 数据库
 
 湖数据库是一种可在工作区中定义并通过内置无服务器 SQL 池使用的数据库。
 
-1. 部署脚本完成后，在 Azure 门户转到它创建的 dp203-*xxxxxxx* 资源组，请注意，此资源组包含 Synapse 工作区、数据湖的存储帐户和 Apache Spark 池。
-2. 选择“Synapse 工作区”，在其“概述”页的“打开 Synapse Studio”卡中，选择“打开”，以在新浏览器标签页中打开 Synapse Studio；如果出现提示，请进行登录  。
-3. 在 Synapse Studio 左侧，使用 &rsaquo;&rsaquo; 图标展开菜单，这将显示 Synapse Studio 中用于管理资源和执行数据分析任务的不同页面。
-4. 在“数据”页上，查看“已链接”选项卡并验证工作区是否包含 Azure Data Lake Storage Gen2 存储帐户的链接 。
-5. 在“数据”页上，切换回“工作区”选项卡，并注意工作区中没有数据库 。
-6. 在 + 菜单中，选择“湖数据库”打开一个新选项卡，你可以在其中设计数据库架构（如果系统提示，接受数据库模板使用条款） 。
-7. 在新数据库的“属性”窗格中，将“名称”更改为“RetailDB”，并验证“输入文件夹”属性是否已自动更新为 files/RetailDB    。 将“数据格式”保留为“带分隔符的文本”（也可以使用 Parquet 格式，并且可以替代单个表的文件格式 - 我们将在本练习中使用逗号分隔的数据。 ）
-8. 在“RetailDB”窗格顶部，选择“发布”以保存当前数据库 。
-9. 在左侧的“数据”窗格中，查看“链接”选项卡。然后展开“Azure Data Lake Storage Gen2”和 synapse*xxxxxxx* 工作区的主 datalake*xxxxxxx* 存储区，然后选择“文件”文件系统；该文件系统当前包含名为 synapse 的文件夹      。
-10. 在已打开的“文件”选项卡中，使用“+ 新建文件夹”按钮创建名为 RetailDB 的新文件夹 - 这是数据库中表使用的数据文件的输入文件夹  。
+1. 选择“Synapse 工作区”，在其“概述”页的“打开 Synapse Studio”卡中，选择“打开”，以在新浏览器标签页中打开 Synapse Studio；如果出现提示，请进行登录  。
+2. 在 Synapse Studio 左侧，使用 &rsaquo;&rsaquo; 图标展开菜单，这将显示 Synapse Studio 中用于管理资源和执行数据分析任务的不同页面。
+3. 在“数据”页上，查看“已链接”选项卡并验证工作区是否包含 Azure Data Lake Storage Gen2 存储帐户的链接 。
+4. 在“数据”页上，切换回“工作区”选项卡，并注意工作区中没有数据库 。
+5. 在 + 菜单中，选择“湖数据库”打开一个新选项卡，你可以在其中设计数据库架构（如果系统提示，接受数据库模板使用条款） 。
+6. 在新数据库的“属性”窗格中，将“名称”更改为“RetailDB”，并验证“输入文件夹”属性是否已自动更新为 files/RetailDB    。 将“数据格式”保留为“带分隔符的文本”（也可以使用 Parquet 格式，并且可以替代单个表的文件格式 - 我们将在本练习中使用逗号分隔的数据。 ）
+7. 在“RetailDB”窗格顶部，选择“发布”以保存当前数据库 。
+8. 在左侧的“数据”窗格中，查看“链接”选项卡。然后展开“Azure Data Lake Storage Gen2”和 synapse*xxxxxxx* 工作区的主 datalake*xxxxxxx* 存储区，然后选择“文件”文件系统；该文件系统当前包含名为 synapse 的文件夹      。
+9.  在已打开的“文件”选项卡中，使用“+ 新建文件夹”按钮创建名为 RetailDB 的新文件夹 - 这是数据库中表使用的数据文件的输入文件夹  。
 
 ## 创建表
 
@@ -274,6 +287,6 @@ Azure Synapse Analytics 让你能够通过创建湖数据库，将数据湖中�
 2. 在 Azure 门户的“主页”上，选择“资源组”。
 3. 选择 Synapse Analytics 工作区的 dp203-*xxxxxxx* 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池。
 4. 在资源组的“概述”页的顶部，选择“删除资源组”。
-5. 输入 dp203-*xxxxxxx* 资源组名称以确认要删除该资源组，然后选择“删除” 。
+5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” 。
 
     几分钟后，将删除 Azure Synapse 工作区资源组及其关联的托管工作区资源组。
