@@ -63,9 +63,17 @@ lab:
 7. 选择“files”容器，并注意它包含名为 data 和 synapse 的文件夹  。 “synapse”文件夹由 Azure Synapse 使用，而“data”文件夹包含要查询的数据文件。
 8. 打开“data”文件夹并观察其中包含三年销售数据的 .csv 文件。
 9. 右键单击任一文件，然后选择“预览”以查看它所包含的数据。 请注意，这些文件包含标题行，因此你可以选择显示列标题的选项。
-10. 关闭预览。 然后在“开发”页上，展开“笔记本”，然后选择已提供的“Spark 转换”笔记本  。
-11. 将笔记本附加到 sparkxxxxxxx Spark 池**。
-12. 查看笔记本中的笔记并运行代码单元格。
+10. 关闭预览。 然后从 [https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/06/notebooks/Spark%20Transform.ipynb](https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/06/notebooks/Spark%20Transform.ipynb) 下载 **Spark Transform.ipynb**
+
+    > **注意**：最好使用 ***ctrl+a*** 然后 ***ctrl+c*** 来复制此文本，然后使用 ***ctrl+v*** 粘贴到工具中（例如记事本），然后使用文件，另存为 **Spark Transform.ipynb**，文件类型为***所有文件***。
+
+11. 然后在“**开发**”页上，展开“**笔记本**”，单击“+ 导入”选项
+
+    ![Spark Notebook 导入](./image/../images/spark-notebook-import.png)
+        
+12. 选择刚下载并保存为 **Spark Transfrom.ipynb** 的文件。
+13. 将笔记本附加到 sparkxxxxxxx Spark 池**。
+14. 查看笔记本中的笔记并运行代码单元格。
 
     > 注意：第一个代码单元需要几分钟才能运行，因为必须启动 Spark 池。 后续单元格的运行速度会更快。
 
@@ -75,8 +83,8 @@ lab:
 
 1. 关闭 Synapse Studio 浏览器选项卡并返回到 Azure 门户。
 2. 在 Azure 门户的“主页”上，选择“资源组”。
-3. 选择 Synapse Analytics 工作区的 dp203-xxxxxxx 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池**。
+3. 选择 Synapse Analytics 工作区的 dp203-*xxxxxxx* 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池。
 4. 在资源组的“概述”页的顶部，选择“删除资源组”。
-5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” **。
+5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” 。
 
     几分钟后，将删除 Azure Synapse 工作区资源组及其关联的托管工作区资源组。
