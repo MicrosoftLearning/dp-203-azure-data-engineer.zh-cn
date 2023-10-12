@@ -45,7 +45,7 @@ Azure Databricks 是基于 Microsoft Azure 的常用开源 Databricks 平台的�
 
 6. 如果出现提示，请选择要使用的订阅（仅当有权访问多个 Azure 订阅时才会发生这种情况）。
 
-7. 等待脚本完成 - 这通常需要大约 5 分钟，但在某些情况下可能需要更长的时间。 在等待时，请查看 Azure Databricks 文档中的[什么是 Azure Databricks？](https://docs.microsoft.com/azure/databricks/scenarios/what-is-azure-databricks)一文。
+7. 等待脚本完成 - 这通常需要大约 5 分钟，但在某些情况下可能需要更长的时间。 在等待时，请查看 Azure Databricks 文档中的[什么是 Azure Databricks？](https://learn.microsoft.com/azure/databricks/introduction/)一文。
 
 ## 创建群集
 
@@ -56,17 +56,17 @@ Azure Databricks 是一个分布式处理平台，可使用 Apache Spark 群集�
 1. 在 Azure 门户中，浏览到由运行的脚本创建的 dp203-xxxxxxx 资源组。
 2. 选择 databricksxxxxxxx Azure Databricks 服务资源。
 3. 在 databricksxxxxxxx 的“概述”页中，使用“启动工作区”按钮在新的浏览器标签页中打开 Azure Databricks 工作区；并在出现提示时登录。
-4. 如果显示“当前数据项目是什么？”消息，请选择“完成”将其关闭 。 然后查看 Azure Databricks 工作区门户，注意左侧边栏包含可执行的各种任务的图标。 展开边栏可显示任务类别的名称。
-5. 选择“(+)新建”任务，然后选择“群集” 。
+4. 如果显示“当前数据项目是什么？”消息，请选择“完成”将其关闭 。 然后查看 Azure Databricks 工作区门户，注意左侧边栏包含可执行的各种任务的图标。
 
-    注意：如果显示提示，请使用“知道了”按钮将其关闭 。 这适用于今后首次导航工作区界面时可能显示的任何提示。
+    >提示：使用 Databricks 工作区门户时，可能会显示各种提示和通知。 消除这些内容，并按照提供的说明完成本练习中的任务。
 
-6. 在“新建群集”页中，使用以下设置创建新群集：
+1. 选择“(+)新建”任务，然后选择“群集” 。
+1. 在“新建群集”页中，使用以下设置创建新群集：
     - 群集名称：用户名的群集（默认群集名称）
     - 群集模式：单节点
-    - 访问模式（如果系统提示）：单个用户
-    - Databricks 运行时版本：10.4 LTS（Scala 2.12、Spark 3.2.1）
-    - 使用 Photon 加速：未选中
+    - 访问模式：单用户（选择你的用户帐户）
+    - Databricks 运行时版本：12.2 LTS (Scala 2.12、Spark 3.2.2)
+    - 使用 Photon 加速：已选择
     - 节点类型：Standard_DS3_v2
     - 在处于不活动状态 30 分钟后终止
 
@@ -78,31 +78,26 @@ Azure Databricks 是一个分布式处理平台，可使用 Apache Spark 群集�
 
 与许多 Spark 环境一样，Databricks 支持使用笔记本来合并笔记和交互式代码单元格，可用于探索数据。
 
-1. 在边栏中，使用“(+) 新建”任务创建具有以下属性的“笔记本” ：
-    - **名称**：浏览产品
-    - **默认语言**：Python
-    - **群集**：用户名的群集
-2. 在“浏览产品”笔记本中，在“&#128463; 文件”菜单中，选择“将数据上传到 DBFS”  。
-3. 在“上传数据”对话框中，记下要将文件上传到的“DBFS 目标目录” 。 然后选择“文件”区域，在“打开”对话框的“文件”框中键入 `https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/23/adventureworks/products.csv` 并选择“打开”   。 然后，在上传文件后，选择“下一步”。
-
-    > 提示：如果浏览器或操作系统不支持在“文件”框中输入 URL，请将 CSV 文件下载到计算机，然后从保存它的本地文件夹上传该文件。 
-
-4. 在“从笔记本访问文件”窗格中，选择示例 PySpark 代码并将其复制到剪贴板。 你将使用该代码将文件中的数据加载到 DataFrame 中。 然后选择“完成”。
-5. 在“浏览产品”笔记本的空白代码单元格中，粘贴复制的代码，应如下所示：
+1. 在边栏中，使用“(+)新建”任务创建一个笔记本 。
+1. 将默认笔记本名称（**Untitled Notebook *[日期]***）更改为“Explore products”，然后在“连接”下拉列表中选择群集（这可能需要一分钟左右才会启动） 。
+1. 将 [products.csv](https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/23/adventureworks/products.csv) 文件下载到本地计算机，并将其另存为 products.csv 。 然后，在“Explore products”笔记本中的“文件”菜单上，选择“将数据上传到 DBFS”  。
+1. 在“上传数据”对话框中，记下要将文件上传到的“DBFS 目标目录” 。 然后选择“文件”区域，并将下载到计算机的 products.csv 文件上传 。 在上传该文件后，选择“下一步”
+1. 在“从笔记本访问文件”窗格中，选择示例 PySpark 代码并将其复制到剪贴板。 你将使用该代码将文件中的数据加载到 DataFrame 中。 然后选择“完成”。
+1. 在“浏览产品”笔记本的空白代码单元格中，粘贴复制的代码，应如下所示：
 
     ```python
-    df1 = spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/shared_uploads/user@outlook.com/products_1_.csv")
+    df1 = spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/shared_uploads/user@outlook.com/products.csv")
     ```
 
-6. 使用单元格右上角的“&#9656; 运行单元格”菜单选项来运行该代码，启动并在出现提示时附加群集。
-7. 等待代码运行的 Spark 作业完成。 代码根据已上传的文件中的数据创建了一个名为 df1 的 dataframe 对象。
-8. 在现有代码单元格下，使用 + 图标添加新的代码单元格。 然后在新单元格中，输入以下代码：
+1. 使用单元格右上角的“&#9656; 运行单元格”菜单选项来运行该代码，启动并在出现提示时附加群集。
+1. 等待代码运行的 Spark 作业完成。 代码根据已上传的文件中的数据创建了一个名为 df1 的 dataframe 对象。
+1. 在现有代码单元格下，使用 + 图标添加新的代码单元格。 然后在新单元格中，输入以下代码：
 
     ```python
     display(df1)
     ```
 
-9. 使用右上角的“&#9656; 运行新的单元格”菜单选项来运行该代码。 此代码显示 dataframe 的内容，其内容应如下所示：
+1. 使用右上角的“&#9656; 运行新的单元格”菜单选项来运行该代码。 此代码显示 dataframe 的内容，其内容应如下所示：
 
     | ProductID | ProductName | 类别 | ListPrice |
     | -- | -- | -- | -- |
@@ -110,7 +105,7 @@ Azure Databricks 是一个分布式处理平台，可使用 Apache Spark 群集�
     | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
     | ... | ... | ... | ... |
 
-10. 在结果表上方，选择 +，然后选择“可视化效果”以查看可视化效果编辑器，然后应用以下选项 ：
+1. 在结果表上方，选择 +，然后选择“可视化效果”以查看可视化效果编辑器，然后应用以下选项 ：
     - **可视化效果类型**：条形图
     - **X 列**：类别
     - **Y 列**：添加新列并选择“ProductID”。 应用“计数”聚合。
@@ -119,7 +114,7 @@ Azure Databricks 是一个分布式处理平台，可使用 Apache Spark 群集�
 
     ![按类别显示产品计数的条形图](./images/databricks-chart.png)
 
-## 创建和查询数据库表
+## 创建表并进行查询
 
 虽然许多数据分析都习惯于使用 Python 或 Scala 等语言来处理文件中的数据，但许多数据分析解决方案都是建立在关系数据库之上的；其中数据存储在表中并使用 SQL 进行操作。
 
@@ -141,7 +136,7 @@ Azure Databricks 是一个分布式处理平台，可使用 Apache Spark 群集�
     ```
 
 4. 运行新单元格，其中包含用于返回“旅行自行车”类别中产品名称和价格的 SQL 代码。
-5. 在左侧选项卡中，选择“数据”任务，并验证是否已在默认数据库（不出所料，该数据库名为“默认”）中创建了 products 表  。 可以使用 Spark 代码来创建自定义数据库和关系表架构，数据分析师可以使用它们来探索数据和生成分析报告。
+5. 在左侧选项卡中，选择“目录”任务，并验证是否已在默认数据库架构（不出所料，该数据库名为“default”）中创建了 products 表  。 可以使用 Spark 代码来创建自定义数据库架构和关系表架构，数据分析师可以使用它们来探索数据和生成分析报告。
 
 ## 删除 Azure Databricks 资源
 
