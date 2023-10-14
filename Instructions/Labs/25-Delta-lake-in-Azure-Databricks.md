@@ -43,7 +43,7 @@ Delta Lake 是一个开源项目，用于在数据湖之上为 Spark 生成事�
 
 6. 如果出现提示，请选择要使用的订阅（仅当有权访问多个 Azure 订阅时才会发生这种情况）。
 
-7. 等待脚本完成 - 这通常需要大约 5 分钟，但在某些情况下可能需要更长的时间。 在等待时，请查看 Azure Databricks 文档中的 [Delta Lake 简介](https://docs.microsoft.com/azure/databricks/delta/delta-intro)一文。
+7. 等待脚本完成 - 这通常需要大约 5 分钟，但在某些情况下可能需要更长的时间。 在等待时，请查看 Azure Databricks 文档中的 [Delta 技术简介](https://learn.microsoft.com/azure/databricks/introduction/delta-comparison)一文。
 
 ## 创建群集
 
@@ -54,17 +54,17 @@ Azure Databricks 是一个分布式处理平台，可使用 Apache Spark 群集�
 1. 在 Azure 门户中，浏览到由运行的脚本创建的 dp203-xxxxxxx 资源组。
 2. 选择 databricksxxxxxxx Azure Databricks 服务资源。
 3. 在 databricksxxxxxxx 的“概述”页中，使用“启动工作区”按钮在新的浏览器标签页中打开 Azure Databricks 工作区；并在出现提示时登录。
-4. 如果显示“当前数据项目是什么？”消息，请选择“完成”将其关闭 。 然后查看 Azure Databricks 工作区门户，注意左侧边栏包含可执行的各种任务的图标。 展开边栏可显示任务类别的名称。
-5. 选择“(+)新建”任务，然后选择“群集” 。
+4. 如果显示“当前数据项目是什么？”消息，请选择“完成”将其关闭 。 然后查看 Azure Databricks 工作区门户，注意左侧边栏包含可执行的各种任务的图标。
 
-    注意：如果显示提示，请使用“知道了”按钮将其关闭 。 这适用于今后首次导航工作区界面时可能显示的任何提示。
+    >提示：使用 Databricks 工作区门户时，可能会显示各种提示和通知。 请关闭这些内容，并按照提供的说明完成本练习中的任务。
 
-6. 在“新建群集”页中，使用以下设置创建新群集：
+1. 选择“(+)新建”任务，然后选择“群集” 。
+1. 在“新建群集”页中，使用以下设置创建新群集：
     - 群集名称：用户名的群集（默认群集名称）
     - 群集模式：单节点
-    - 访问模式（如果系统提示）：单个用户
-    - Databricks 运行时版本：10.4 LTS（Scala 2.12、Spark 3.2.1）
-    - 使用 Photon 加速：未选中
+    - 访问模式：单用户（选择你的用户帐户）
+    - Databricks 运行时版本：12.2 LTS (Scala 2.12、Spark 3.2.2)
+    - 使用 Photon 加速：已选择
     - 节点类型：Standard_DS3_v2
     - 在处于不活动状态 30 分钟后终止
 
@@ -72,14 +72,13 @@ Azure Databricks 是一个分布式处理平台，可使用 Apache Spark 群集�
 
 > 注意：如果群集无法启动，则订阅在预配 Azure Databricks 工作区的区域中的配额可能不足。 请参阅 [CPU 内核限制阻止创建群集](https://docs.microsoft.com/azure/databricks/kb/clusters/azure-core-limit)，了解详细信息。 如果发生这种情况，可以尝试删除工作区，并在其他区域创建新工作区。 可以将区域指定为设置脚本的参数，如下所示：`./setup.ps1 eastus`
 
-## 使用笔记本探索数据
+## 使用笔记本探索 delta lake
 
-与许多 Spark 环境一样，Databricks 支持使用笔记本来合并笔记和交互式代码单元格，可用于探索数据。
+在本练习中，你将在笔记本中使用代码浏览 Azure Databricks 中的 delta lake。
 
-1. 展开左任务栏，并选择“工作区”选项卡。然后选择 Users 文件夹，然后在 &#8962; your_user_name 文件夹的“&#9662;”菜单中，选择“导入”    。
-2. 在“导入笔记本”对话框中，选择“URL”，然后从 `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/25/Delta-Lake.ipynb` 导入笔记本 。
-3. 选择“&#8962; 主页”，然后打开刚导入的“Delta-Lake”笔记本 。
-4. 确保笔记本已附加到“用户名”的群集，并按照其包含的说明进行操作；然后运行它包含的单元格以使用 Delta Lake。
+1. 在左侧边栏中，选择“工作区”。 然后选择“&#8962; 主页”文件夹。
+1. 在页面顶部的用户名旁边的“&#8942;”菜单中，选择“导入” 。 然后在“导入”对话框中，选择“URL”并从 `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/25/Delta-Lake.ipynb` 导入笔记本 
+1. 将笔记本连接到群集，并按照其中的说明运行它包含的单元格，探索 delta Lake 功能。
 
 ## 删除 Azure Databricks 资源
 

@@ -6,7 +6,7 @@ lab:
 
 # 了解 Azure Synapse Analytics
 
-Azure Synapse Analytics 为端到端数据分析提供了一个整合的数据分析平台。 在本练习中，你将探索各种引入和探索数据的方法。 本练习旨在简要概述 Azure Synapse Analytics 的各种核心功能，其他练习可用于更详细地探索特定功能。
+Azure Synapse Analytics 为端到端数据分析提供了一个整合的数据分析平台。 在本练习中，你将探索各种引入和探索数据的方法。 本练习旨在简要概括 Azure Synapse Analytics 的各种核心功能。 其他练习可用于更详细地探索特定功能。
 
 完成此练习大约需要 60 分钟。
 
@@ -73,8 +73,8 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
         - sqlxxxxxxx：托管关系数据仓库数据库的专用 SQL 池* 。
     - Apache Spark 池：
         - sparkxxxxxxx：可按需用于通过 Scala 或 Python 等编程语言来探索或处理数据湖中的数据*。
-    - 数据资源管理器池：
-        - adxxxxxxxx：数据资源管理器池，可用于使用 Kusto 查询语言 (KQL) 来分析数据*。
+<!---    - **Data Explorer pools**:
+        - **adx*xxxxxxx***: A Data Explorer pool that you can use to analyze data by using Kusto Query Language (KQL). --->
 
 ## 使用管道引入数据
 
@@ -86,7 +86,7 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 2. 在“复制数据”工具的“属性”步骤上，确保已选中“内置复制任务”和“立即运行一次”，然后单击“下一步 >”。
 3. 在“源”步骤的“数据集”子步骤中，选择以下设置：
     -               源类型：全部
-    -               连接：创建新的连接，然后在显示的“链接服务”窗格中，在“文件”选项卡上，选择“HTTP”。然后，使用以下设置继续并创建与数据文件的连接：
+    - 连接：创建新的连接，然后在显示的“链接服务”窗格中，在“通用协议”选项卡上，选择“HTTP”。然后，使用以下设置继续并创建与数据文件的连接：*  *
         - 名称：产品
         - 说明：通过 HTTP 提供的产品列表
         - 通过集成运行时连接：AutoResolveIntegrationRuntime
@@ -137,7 +137,7 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 
 ### 查看引入的数据
 
-1. 在“数据”页面上，选择“链接”选项卡并展开“产品文件”层次结构，直到看到 Synapse 工作区的“文件”文件存储   。 然后选择文件存储以验证包含“products.csv”文件的名为“product_data”的文件夹是否已复制到此位置，如下所示 ：
+1. 在“数据”页面上，选择“链接”选项卡并展开“synapsexxxxxxx (主) datalake”容器层次结构，直到看到 Synapse 工作区的“文件”文件存储 。 然后选择文件存储以验证包含“products.csv”文件的名为“product_data”的文件夹是否已复制到此位置，如下所示 ：
 
     ![显示 Synapse Studio 展开的 Azure Data Lake Storage 层次结构的图像，其中包含 Synapse 工作区的文件存储](./images/product_files.png)
 
@@ -341,49 +341,68 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
 
 10. 在“管理”页面上，选择“sqlxxxxxxx”专用 SQL 池行并使用其“&#10074;&#10074;”图标将其暂停 。
 
-## 使用数据资源管理器池探索数据
+<!--- ## Explore data with a Data Explorer pool
 
-Azure Synapse 数据资源管理器提供一个运行时，可用于使用 Kusto 查询语言 (KQL) 存储和查询数据。 Kusto 针对包含时间序列组件的数据（例如日志文件或 IoT 设备的实时数据）进行了优化。
+Azure Synapse Data Explorer provides a runtime that you can use to store and query data by using Kusto Query Language (KQL). Kusto is optimized for data that includes a time series component, such as realtime data from log files or IoT devices.
 
-### 创建数据资源管理器数据库并将数据引入到表中
+### Create a Data Explorer database and ingest data into a table
 
-1. 在 Synapse Studio 中，在“管理”页面的“数据资源管理器池”部分，选择“adxxxxxxxx”池行，然后使用其“& #9655;”图标恢复该行   。
-2. 等待池启动。 这可能需要一些时间。 使用“&#8635; 刷新”按钮定期检查其状态。 状态将在准备就绪时显示为“联机”。
-3. 数据资源管理器池启动后，查看“数据”页面；在“工作区”选项卡上，展开“数据资源管理器数据库”并验证是否列出“adxxxxxxxx”（如有必要，使用页面左上角的“&#8635;”图标刷新视图）    
-4. 在“数据”窗格中，使用“&#65291;”图标在“adxxxxxxxx”池中创建一个名称为“sales-data”的新数据资源管理器数据库    。
-5. 在 Synapse Studio 中，等待创建数据库（将显示一条通知）。
-6. 切换到“开发”页面，并在“KQL 脚本”列表中选择“ingest-data”  。 当脚本打开时，请注意它包含两个语句：
-    - 用于创建名为“sales”的表的 `.create table` 语句。
-    - 用于将数据从 HTTP 源加载到表中的 `.ingest into table` 语句。
-7. 在“ingest-data”窗格的“连接到”列表中，选择“adxxxxxxxx”池，然后在“数据库”列表中，选择“sales-data”    。
-8. 在脚本中，突出显示 `.create table` 语句，然后在工具栏上使用“&#9655; 运行”按钮以运行选定的代码，这会创建一个名为“sales”的表 。
-9. 创建表后，突出显示 `.ingest into table` 语句，并使用“&#9655; 运行”按钮运行它，并将数据引入到表中。
+1. In Synapse Studio, on the **Manage** page, in the **Data Explorer pools** section, select the **adx*xxxxxxx*** pool row and then use its **&#9655;** icon to resume it.
+2. Wait for the pool to start. It can take some time. Use the **&#8635; Refresh** button to check its status periodically. The status will show as **online** when it is ready.
+3. When the Data Explorer pool has started, view the **Data** page; and on the **Workspace** tab, expand **Data Explorer Databases** and verify that **adx*xxxxxxx*** is listed (use **&#8635;** icon at the top-left of the page to refresh the view if necessary)
+4. In the **Data** pane, use the **&#65291;** icon to create a new **Data Explorer database** in the **adx*xxxxxxx*** pool with the name **sales-data**.
+5. In Synapse Studio, wait for the database to be created (a notification will be displayed).
+6. Switch to the **Develop** page, and in the **+** menu, add a KQL script. Then, when the script pane opens, in the **Connect to** list, select your **adx*xxxxxxx*** pool, and in the **Database** list, select **sales-data**.
+7. In the new script, add the following code:
 
-> 注意：在本示例中，从文件导入了非常少量的批处理数据，这适用于本练习的目的。 实际上，可以使用数据资源管理器来分析更大量的数据；包括来自 Azure 事件中心等流式处理源的实时数据。
+    ```kusto
+    .create table sales (
+        SalesOrderNumber: string,
+        SalesOrderLineItem: int,
+        OrderDate: datetime,
+        CustomerName: string,
+        EmailAddress: string,
+        Item: string,
+        Quantity: int,
+        UnitPrice: real,
+        TaxAmount: real)
+    ```
 
-### 使用 Kusto 查询语言查询表
+8. On the toolbar, use the **&#9655; Run** button to run the selected code, which creates a table named **sales** in the **sales-data** database you created previously.
+9. After the code has run successfully, replace it with the following code, which loads data into the table:
 
-1. 切换回“数据”页面，在“sales-data”数据库的“...”菜单中选择“刷新”   。
-2. 展开“sales-data”数据库的“Tables”文件夹 。 然后在“sales”表的“...”菜单中，选择“新建 KQL 脚本” > “获取 1000 行”   。
-3. 查看生成的查询及其结果。 查询应包含以下代码：
+    ```kusto
+    .ingest into table sales 'https://raw.githubusercontent.com/microsoftlearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/files/sales.csv' 
+    with (ignoreFirstRecord = true)
+    ```
+
+10. Run the new code to ingest the data.
+
+> **Note**: In this example, you imported a very small amount of batch data from a file, which is fine for the purposes of this exercise. In reality, you can use Data Explorer to analyze much larger volumes of data; including realtime data from a streaming source such as Azure Event Hubs.
+
+### Use Kusto query language to query the table
+
+1. Switch back to the **Data** page and in the **...** menu for the **sales-data** database, select **Refresh**.
+2. Expand the **sales-data** database's **Tables** folder. Then in the **...** menu for the **sales** table, select **New KQL script** > **Take 1000 rows**.
+3. Review the generated query and its results. The query should contain the following code:
 
     ```kusto
     sales
     | take 1000
     ```
 
-    查询结果包含前 1000 行数据。
+    The results of the query contain the first 1000 rows of data.
 
-4. 按照以下方式更改查询：
+4. Modify the query as follows:
 
     ```kusto
     sales
     | where Item == 'Road-250 Black, 48'
     ```
 
-5. 使用“&#9655; 运行”按钮运行查询。 然后查看结果，其中应只包含“Road-250 Black, 48”产品的销售订单行。
+5. Use the **&#9655; Run** button to run the query. Then review the results, which should contain only the rows for sales orders for the *Road-250 Black, 48* product.
 
-6. 按照以下方式更改查询：
+6. Modify the query as follows:
 
     ```kusto
     sales
@@ -391,9 +410,9 @@ Azure Synapse 数据资源管理器提供一个运行时，可用于使用 Kusto
     | where datetime_part('year', OrderDate) > 2020
     ```
 
-7. 运行查询并查看结果，其中应仅包含 2020 年之后制作的“Road-250 Black, 48”的销售订单。
+7. Run the query and review the results, which should contain only sales orders for *Road-250 Black, 48* made after 2020.
 
-8. 按照以下方式更改查询：
+8. Modify the query as follows:
 
     ```kusto
     sales
@@ -402,13 +421,13 @@ Azure Synapse 数据资源管理器提供一个运行时，可用于使用 Kusto
     | sort by Item asc
     ```
 
-9. 运行查询并查看结果，其中应包含 2020 年 1 月 1 日至 12 月 31 日期间每种产品的总净收入，按产品名称的升序排列。
+9. Run the query and review the results, which should contain the total net revenue for each product between January 1st and December 31st 2020 in ascending order of product name.
 
-10. 如果尚不可见，请选择工具栏右侧的“属性”按钮（看起来类似于“&#128463;<sub>*</sub>”）以显示“属性”页面  。 然后在“属性”窗格中，将查询名称更改为“探索销售数据”并使用工具栏上的“发布”按钮进行保存  。
+10. If it is not already visible, show the **Properties** page by selecting the **Properties** button (which looks similar to **&#128463;<sub>*</sub>**) on the right end of the toolbar. Then in the **Properties** pane, change the query name to **Explore sales data** and use the **Publish** button on the toolbar to save it.
 
-11. 关闭查询窗格，然后查看“开发”页面以验证 KQL 脚本是否已保存。
+11. Close the query pane, and then view the **Develop** page to verify that the KQL script has been saved.
 
-12. 在“管理”页面上，选择“adxxxxxxxx”数据资源管理器池行，并使用其“&#10074;&#10074;”图标将其暂停 。
+12. On the **Manage** page, select the **adx*xxxxxxx*** Data Explorer pool row and use its &#10074;&#10074; icon to pause it. --->
 
 ## 删除 Azure 资源
 
