@@ -21,7 +21,7 @@ lab:
 在本练习中，你将组合使用 PowerShell 脚本和 ARM 模板来预配 Azure Synapse Analytics 工作区。
 
 1. 登录到 Azure 门户，地址为 [](https://portal.azure.com)。
-2. 使用页面顶部搜索栏右侧的 [\>_] 按钮在 Azure 门户中创建新的 Cloud Shell，在出现提示时选择“PowerShell”环境并创建存储。 Cloud Shell 在 Azure 门户底部的窗格中提供命令行接口，如下所示：
+2. 使用页面顶部搜索栏右侧的 [\>_] 按钮在 Azure 门户中创建新的 Cloud Shell，在出现提示时选择“PowerShell”环境并创建存储。 Cloud Shell 在 Azure 门户底部的窗格中提供命令行界面，如下所示：
 
     ![具有 Cloud Shell 窗格的 Azure 门户](./images/cloud-shell.png)
 
@@ -29,7 +29,7 @@ lab:
 
 3. 可以通过拖动窗格顶部的分隔条来调整 Cloud Shell 的大小，或使用窗格右上角的“—”、“&#9723;”和“X”图标来最小化、最大化和关闭窗格 。 有关如何使用 Azure Cloud Shell 的详细信息，请参阅 [Azure Cloud Shell 文档](https://docs.microsoft.com/azure/cloud-shell/overview)。
 
-4. 在“PowerShell”窗格中，输入以下命令以克隆此存储库：
+4. 在 PowerShell 窗格中，输入以下命令以克隆此存储库：
 
     ```powershell
     rm -r dp-203 -f
@@ -249,8 +249,8 @@ DimCustomer 表支持类型 1 和类型 2 缓慢变化的维度 (SCD)，其中�
 
 1. 关闭 Synapse Studio 浏览器选项卡并返回到 Azure 门户。
 2. 在 Azure 门户的“主页”上，选择“资源组”。
-3. 选择 Synapse Analytics 工作区的 dp203-xxxxxxx 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池**。
+3. 选择 Synapse Analytics 工作区的 dp203-*xxxxxxx* 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池。
 4. 在资源组的“概述”页的顶部，选择“删除资源组”。
-5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” **。
+5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” 。
 
     几分钟后，将删除 Azure Synapse 工作区资源组及其关联的托管工作区资源组。

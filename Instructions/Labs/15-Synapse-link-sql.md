@@ -56,7 +56,7 @@ Azure Synapse Link for SQL 使你能够自动将 SQL Server 或 Azure SQL 数据
 
     > 注意：请留意不要将 Azure SQL 服务器资源 (sqldbxxxxxxxx) 与 Azure Synapse Analytics 专用 SQL 池 (sqlxxxxxxxx) 混为一谈 ****** ******。
 
-2. 在 Azure SQL 数据库资源的页面左侧窗格中，在“安全”部分（靠近底部）选择“标识” 。 然后在“系统分配的托管标识”下，将“状态”选项设置为“开启”  。 然后使用“&#128427;保存”图标，保存配置更改。
+2. 在 Azure SQL Server 资源的页面左侧窗格中，在“安全”部分（靠近底部）选择“标识” 。 然后在“系统分配的托管标识”下，将“状态”选项设置为“开启”  。 然后使用“&#128427;保存”图标，保存配置更改。
 
     ![Azure 门户中 Azure SQL 服务器“标识”页的屏幕截图。](./images/sqldb-identity.png)
 
