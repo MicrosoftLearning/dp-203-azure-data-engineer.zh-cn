@@ -46,7 +46,7 @@ Azure Synapse Analytics 工作区提供用于管理数据和数据处理运行�
 6. 如果出现提示，请选择要使用的订阅（仅当有权访问多个 Azure 订阅时才会发生这种情况）。
 7. 出现提示时，输入要为 Azure Synapse SQL 池设置的合适密码。
 
-    > 注意：请务必记住此密码！
+    > 注意：请务必记住此密码！ 此外，密码不能包含全部或部分登录名。
 
 8. 等待脚本完成 - 这通常需要大约 20 分钟，但在某些情况下可能需要更长的时间。 在等待期间，请查看 Azure Synapse Analytics 文档中的[什么是 Azure Synapse Analytics？](https://docs.microsoft.com/azure/synapse-analytics/overview-what-is)一文。
 
