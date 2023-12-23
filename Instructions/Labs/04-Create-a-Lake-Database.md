@@ -52,16 +52,16 @@ Azure Synapse Analytics 让你能够通过创建湖数据库，将数据湖中�
 
 ## 修改容器权限
 
-1. 部署脚本完成后，在 Azure 门户转到它创建的 dp203-*xxxxxxx* 资源组，请注意，此资源组包含 Synapse 工作区、数据湖的存储帐户和 Apache Spark 池。
-1. 为名为 datalakexxxxxxx 的数据湖选择“存储帐户”  
+1. 部署脚本完成后，在 Azure 门户转到它创建的 dp203-xxxxxxx 资源组，请注意，此资源组包含 Synapse 工作区、数据湖的存储帐户和 Apache Spark 池**。
+1. 为名为 datalakexxxxxxx 的数据湖选择“存储帐户” 
 
      ![从数据湖导航到容器](./images/datalakexxxxxx-storage.png)
 
-1. 在 datalakexxxxxx 容器中，选择“文件文件夹” 
+1. 在 datalakexxxxxx 容器中，选择“文件文件夹”
 
     ![选择 Data Lake 容器中的“文件文件夹”](./images/dp203-Container.png)
 
-1. 在“文件文件夹”中，会显示“身份验证方法:”为“访问密钥(切换到 Azure AD 用户帐户)”，单击此项更改为“Azure AD 用户帐户”。 
+1. 在“文件文件夹”中，会显示“身份验证方法:”为“访问密钥(切换到 Azure AD 用户帐户)”，单击此项更改为“Azure AD 用户帐户”。
 
     ![更改为“Azure AD 用户帐户”](./images/dp203-switch-to-aad-user.png)
 ## 创建 Lake 数据库
@@ -193,7 +193,7 @@ Azure Synapse Analytics 让你能够通过创建湖数据库，将数据湖中�
 1. 在主窗格中，切换回“RetailDB”窗格，其中包含数据库架构（当前包含 Customer 和 Product 表）  。
 2. 在“+ 表”菜单中，选择“从数据湖” 。 然后在“从数据湖创建外部表”窗格中，指定以下选项：
     - **外部表名称**：SalesOrder
-    - **链接服务**：选择“synapse xxxxxxx-WorkspaceDefautStorage (datalakexxxxxxx)” 
+    - **链接服务**：选择“synapse xxxxxxx-WorkspaceDefautStorage (datalakexxxxxxx)”
     - **文件夹的输入文件**：files/RetailDB/SalesOrder
 3. 继续下一页，然后使用以下选项创建表：
     - File type：CSV
@@ -285,7 +285,7 @@ Azure Synapse Analytics 让你能够通过创建湖数据库，将数据湖中�
 
 1. 关闭 Synapse Studio 浏览器选项卡并返回到 Azure 门户。
 2. 在 Azure 门户的“主页”上，选择“资源组”。
-3. 选择 Synapse Analytics 工作区的 dp203-*xxxxxxx* 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池。
+3. 选择 Synapse Analytics 工作区的 dp203-xxxxxxx 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池**。
 4. 在资源组的“概述”页的顶部，选择“删除资源组”。
 5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” 。
 
