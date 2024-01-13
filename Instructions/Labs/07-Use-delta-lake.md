@@ -56,14 +56,14 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
 
 ### 浏览数据湖中的数据
 
-1. 脚本完成后，在 Azure 门户中转到创建的 dp203-*xxxxxxx* 资源组，然后选择 Synapse 工作区。
+1. 脚本完成后，在 Azure 门户中转到创建的 dp203-xxxxxxx 资源组，然后选择 Synapse 工作区。
 2. 在 Synapse 工作区“概述”页的“打开 Synapse Studio”卡中，选择“打开”，以在新浏览器标签页中打开 Synapse Studio；如果出现提示，请进行登录  。
 3. 在 Synapse Studio 左侧，使用 &rsaquo;&rsaquo; 图标展开菜单，这将显示 Synapse Studio 中用于管理资源和执行数据分析任务的不同页面。
 4. 在“数据”页上，查看“已链接”选项卡并验证工作区是否包含 Azure Data Lake Storage Gen2 存储帐户的链接，该帐户的名称应类似于 synapsexxxxxxx* (Primary - datalake xxxxxxx*) ** 。
 5. 展开存储帐户，验证它是否包含名为 files 的文件系统容器。
-6. 选择“files”容器，并注意它包含名为“products”的文件夹 。 此文件夹包含你将在本练习中处理的数据。
-7. 打开“products”文件夹，并观察它是否包含名为 products.csv 的文件 。
-8. 选择 products.csv，然后在工具栏上的“新建笔记本”列表中选择“加载到 DataFrame”  。
+6. 选择“files”容器，并注意它包含名为“products”的文件夹********。 此文件夹包含你将在本练习中处理的数据。
+7. 打开“products”文件夹，并观察它是否包含名为 products.csv 的文件********。
+8. 选择 products.csv，然后在工具栏上的“新建笔记本”列表中选择“加载到 DataFrame”************。
 9. 在打开的“笔记本 1”窗格中，在“附加到”列表中，选择 Spark 池“sparkxxxxxxx”，并确保“语言”设置为“PySpark (Python)”    。
 10. 查看笔记本中的第一个（也是唯一一个）单元格中的代码，它应该如下所示：
 
@@ -93,20 +93,20 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
     | -- | -- | -- | -- |
     | 771 | Mountain-100 Silver, 38 | 山地自行车 | 3399.9900 |
     | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
-    | ... | ... | ... | ... |
+    | [.] | [.] | [.] | [.] |
 
 ### 将文件数据加载到 delta 表中
 
-1. 在第一个代码单元格返回的结果下，使用“+ 代码”按钮添加新的代码单元格。 然后在新单元格中输入以下代码并运行它：
+1. 在第一个代码单元格返回的结果下，使用“+ 代码”按钮添加新的代码单元格****。 然后在新单元格中输入以下代码并运行它：
 
     ```Python
     delta_table_path = "/delta/products-delta"
     df.write.format("delta").save(delta_table_path)
     ```
 
-2. 在“files”选项卡上使用工具栏中的“&#8593;”图标返回到“files”容器的根目录，然后请注意观察已创建的“delta”新文件   。 打开此文件夹及其包含的 products-delta 表，应该能在其中看到包含数据的 Parquet 格式文件。
+2. 在“files”选项卡上使用工具栏中的“&#8593;”图标返回到“files”容器的根目录，然后请注意观察已创建的“delta”新文件****************。 打开此文件夹及其包含的 products-delta 表，应该能在其中看到包含数据的 Parquet 格式文件****。
 
-3. 返回到“笔记本 1”选项卡并添加另一个新的代码单元格。 然后，在新单元格中添加以下代码并运行它：
+3. 返回到“笔记本 1”选项卡并添加另一个新的代码单元格****。 然后，在新单元格中添加以下代码并运行它：
 
     ```Python
     from delta.tables import *
@@ -124,7 +124,7 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
     deltaTable.toDF().show(10)
     ```
 
-    数据将加载到 DeltaTable 对象中并更新。 更新的内容会体现在查询结果中。
+    数据将加载到 DeltaTable 对象中并更新****。 更新的内容会体现在查询结果中。
 
 4. 使用以下代码添加另一个新的代码单元并运行它：
 
@@ -133,9 +133,9 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
     new_df.show(10)
     ```
 
-    代码将 delta 表数据从数据湖中的位置加载到数据帧中，验证通过 DeltaTable 对象所做的更改是否已持久保存。
+    代码将 delta 表数据从数据湖中的位置加载到数据帧中，验证通过 DeltaTable 对象所做的更改是否已持久保存****。
 
-5. 修改刚才运行的代码（如下所示），选择使用 Delta Lake 的“按时间顺序查看”功能来查看旧版数据。
+5. 修改刚才运行的代码（如下所示），选择使用 Delta Lake 的“按时间顺序查看”功能来查看旧版数据**。
 
     ```Python
     new_df = spark.read.format("delta").option("versionAsOf", 0).load(delta_table_path)
@@ -154,10 +154,10 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
 
 ## 创建目录表
 
-到目前为止，你已通过从包含表所基于 parquet 文件的文件夹加载数据来处理 Delta 表。 可以定义封装数据的目录表，并提供可以在 SQL 代码中引用的命名表实体。 对于 Delta Lake，Spark 支持两种类型的目录表：
+到目前为止，你已通过从包含表所基于 parquet 文件的文件夹加载数据来处理 Delta 表。 可以定义封装数据的目录表，并提供可以在 SQL 代码中引用的命名表实体**。 对于 Delta Lake，Spark 支持两种类型的目录表：
 
-- 由包含表数据的 parquet 文件的路径定义的外部表。
-- 在 Hive 元存储中为 Spark 池定义的托管表。
+- 由包含表数据的 parquet 文件的路径定义的外部表**。
+- 在 Hive 元存储中为 Spark 池定义的托管表**。
 
 ### 创建外部表
 
@@ -169,7 +169,7 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
     spark.sql("DESCRIBE EXTENDED AdventureWorks.ProductsExternal").show(truncate=False)
     ```
 
-    此代码创建名为“AdventureWorks”的新数据库，然后基于前面定义的 parquet 文件的路径在该数据库中创建名为“ProductsExternal”的外部表 。 随后会显示关于表属性的说明。 请注意，Location 属性是指定的路径。
+    此代码创建名为“AdventureWorks”的新数据库，然后基于前面定义的 parquet 文件的路径在该数据库中创建名为“ProductsExternal”的外部表********。 随后会显示关于表属性的说明。 请注意，Location 属性是指定的路径****。
 
 2. 添加新的代码单元格，然后输入并运行以下代码：
 
@@ -181,7 +181,7 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
     SELECT * FROM ProductsExternal;
     ```
 
-    该代码使用 SQL 将上下文切换到 AdventureWorks 数据库（该数据库不返回任何数据），然后查询 ProductsExternal 表（返回包含 Delta Lake 表中的产品数据的结果集） 。
+    该代码使用 SQL 将上下文切换到 AdventureWorks 数据库（该数据库不返回任何数据），然后查询 ProductsExternal 表（返回包含 Delta Lake 表中的产品数据的结果集）********。
 
 ### 创建托管表
 
@@ -192,7 +192,7 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
     spark.sql("DESCRIBE EXTENDED AdventureWorks.ProductsManaged").show(truncate=False)
     ```
 
-    该代码基于你最初从 products.csv 文件加载的 DataFrame（在更新产品 771 的价格之前）创建名为 ProductsManaged 的托管表 。 你不需要为表使用的 parquet 文件指定路径，在 Hive 元存储中系统会为你管理该路径，并将其显示在表说明的 Location 属性中（在 files/synapse/workspaces/synapsexxxxxxx/warehouse 路径中） 。
+    该代码基于你最初从 products.csv 文件加载的 DataFrame（在更新产品 771 的价格之前）创建名为 ProductsManaged 的托管表********。 你不需要为表使用的 parquet 文件指定路径，在 Hive 元存储中系统会为你管理该路径，并将其显示在表说明的 Location 属性中（在 files/synapse/workspaces/synapsexxxxxxx/warehouse 路径中）********。
 
 2. 添加新的代码单元格，然后输入并运行以下代码：
 
@@ -204,7 +204,7 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
     SELECT * FROM ProductsManaged;
     ```
 
-    该代码使用 SQL 查询 ProductsManaged 表。
+    该代码使用 SQL 查询 ProductsManaged 表****。
 
 ### 比较外部表和托管表
 
@@ -218,7 +218,7 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
     SHOW TABLES;
     ```
 
-    此代码列出 AdventureWorks 数据库中的表。
+    此代码列出 AdventureWorks 数据库中的表****。
 
 2. 按如下所示修改代码单元格，然后运行它：
 
@@ -233,8 +233,8 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
 
     此代码会从元存储中删除表。
 
-3. 返回到“files”选项卡并查看“files/delta/products-delta”文件夹 。 请注意，数据文件仍存在于此位置。 删除外部表的操作已从元存储中删除该表，但数据文件保持不变。
-4. 查看 files/synapse/workspaces/synapsexxxxxxx/warehouse 文件夹，并注意没有对应于 ProductsManaged 表数据的文件夹 。 删除托管表的操作会从元存储中删除该表，同时删除该表的数据文件。
+3. 返回到“files”选项卡并查看“files/delta/products-delta”文件夹********。 请注意，数据文件仍存在于此位置。 删除外部表的操作已从元存储中删除该表，但数据文件保持不变。
+4. 查看 files/synapse/workspaces/synapsexxxxxxx/warehouse 文件夹，并注意没有对应于 ProductsManaged 表数据的文件夹********。 删除托管表的操作会从元存储中删除该表，同时删除该表的数据文件。
 
 ### 使用 SQL 创建表
 
@@ -266,7 +266,7 @@ Delta Lake 是一个开源项目，用于在数据湖之上生成事务数据存
 
 Delta Lake 支持流式处理数据。 Delta 表可以是接收器，也可以是使用 Spark 结构化流式处理 API 创建的数据流的数据源 。 在此示例中，你将使用 Delta 表作为模拟物联网 (IoT) 方案中部分流式处理数据的接收器。
 
-1. 返回到“笔记本 1”选项卡并添加新的代码单元格。 然后，在新单元格中添加以下代码并运行它：
+1. 返回到“笔记本 1”选项卡并添加新的代码单元格****。 然后，在新单元格中添加以下代码并运行它：
 
     ```python
     from notebookutils import mssparkutils
@@ -329,7 +329,7 @@ Delta Lake 支持流式处理数据。 Delta 表可以是接收器，也可以�
     spark.sql("CREATE TABLE IotDeviceData USING DELTA LOCATION '{0}'".format(delta_stream_table_path))
     ```
 
-    此代码基于 Delta 文件夹在默认数据库中创建名为 IotDeviceData 的目录表 。 同样，此代码与用于非流式处理数据的代码相同。
+    此代码基于 Delta 文件夹在默认数据库中创建名为 IotDeviceData 的目录表********。 同样，此代码与用于非流式处理数据的代码相同。
 
 5. 在新的代码单元格中，添加并运行以下代码：
 
@@ -380,9 +380,9 @@ Delta Lake 支持流式处理数据。 Delta 表可以是接收器，也可以�
 
 除了 Spark 池，Azure Synapse Analytics 还包括内置的无服务器 SQL 池。 可以使用此池中的关系数据库引擎通过 SQL 查询 Delta 表。
 
-1. 在“files”选项卡中浏览到“files/delta”文件夹 。
-2. 选择 products-delta 文件夹，然后在工具栏上的“新建 SQL 脚本”下拉列表中选择“选择前 100 行”  。
-3. 在“选择前 100 行”窗格中，选择“文件类型”列表中的“Delta 格式”，然后选择“应用”   。
+1. 在“files”选项卡中浏览到“files/delta”文件夹********。
+2. 选择 products-delta 文件夹，然后在工具栏上的“新建 SQL 脚本”下拉列表中选择“选择前 100 行”************。
+3. 在“选择前 100 行”窗格中，选择“文件类型”列表中的“Delta 格式”，然后选择“应用”****************。
 4. 查看生成的 SQL 代码，该代码应类似于：
 
     ```sql
@@ -396,13 +396,13 @@ Delta Lake 支持流式处理数据。 Delta 表可以是接收器，也可以�
         ) AS [result]
     ```
 
-5. 使用“&#9655; 运行”图标运行脚本并查看结果。 结果应如下所示：
+5. 使用“&#9655; 运行”图标运行脚本并查看结果****。 结果应如下所示：
 
     | ProductID | ProductName | 类别 | ListPrice |
     | -- | -- | -- | -- |
     | 771 | Mountain-100 Silver, 38 | 山地自行车 | 3059.991 |
     | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
-    | ... | ... | ... | ... |
+    | [.] | [.] | [.] | [.] |
 
     这演示了如何使用无服务器 SQL 池来查询使用 Spark 创建的 Delta 格式文件，并将结果用于报告或分析工作。
 
@@ -422,7 +422,7 @@ Delta Lake 支持流式处理数据。 Delta 表可以是接收器，也可以�
 
 1. 关闭 Synapse Studio 浏览器选项卡并返回到 Azure 门户。
 2. 在 Azure 门户的“主页”上，选择“资源组”。
-3. 选择 Synapse Analytics 工作区的 dp203-*xxxxxxx* 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池。
+3. 选择 Synapse Analytics 工作区的 dp203-xxxxxxx 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池**。
 4. 在资源组的“概述”页的顶部，选择“删除资源组”。
 5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” 。
 
