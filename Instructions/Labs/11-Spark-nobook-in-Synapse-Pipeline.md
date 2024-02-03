@@ -62,15 +62,16 @@ lab:
 6. 选择文件容器，并注意它包含一个名为“data”的文件夹，其中包含要转换的数据文件****。
 7. 打开“data”文件夹并查看其包含的 CSV 文件。 右键单击任一文件，然后选择“预览”以查看数据示例****。 完成后关闭预览窗口。
 8. 在“Synapse Studio”的“开发”页上，展开“笔记本”并打开“Spark 转换”笔记本************。
+
+    > **备注**：如果在运行脚本期间发现笔记本没有上传，则应从 GitHub Allfiles/labs/11/notebooks[](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks) 下载名为 Spark Transform.ipynb 的文件并将其上传到 Synapse。
+
 9. 查看笔记本包含的代码，请注意该代码：
     - 设置变量以定义唯一的文件夹名称。
     - 从 /data 文件夹加载 CSV 销售订单数据****。
     - 通过将客户名称拆分为多个字段来转换数据。
     - 将转换后的数据以 Parquet 格式保存在名称唯一的文件夹中。
 10. 在笔记本工具栏中，将笔记本附加到 spark*xxxxxxx* Spark 池，然后使用“&#9655; 全部运行”按钮运行笔记本中的所有代码单元格********。
-
-    > **备注**：如果在运行脚本期间发现笔记本没有上传，则应从 GitHub Allfiles/labs/11/notebooks[](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks) 下载名为 Spark Transform.ipynb 的文件并将其上传到 Synapse。
-    
+  
     Spark 会话可能需要几分钟才能启动，随后代码单元格才能运行。
 
 11. 运行所有笔记本单元格后，请记下保存转换后的数据的文件夹的名称。
