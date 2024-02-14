@@ -61,10 +61,21 @@ lab:
 5. 展开存储帐户，验证它是否包含名为“files (primary)”的文件系统容器。
 6. 选择文件容器，并注意它包含一个名为“data”的文件夹，其中包含要转换的数据文件****。
 7. 打开“data”文件夹并查看其包含的 CSV 文件。 右键单击任一文件，然后选择“预览”以查看数据示例****。 完成后关闭预览窗口。
-8. 在“Synapse Studio”的“开发”页上，展开“笔记本”并打开“Spark 转换”笔记本************。
+8. 右键单击任一文件，然后选择“预览”以查看它所包含的数据。 请注意，这些文件包含标题行，因此你可以选择显示列标题的选项。
+9. 关闭预览。 然后从 [Allfiles/labs/11/notebook](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks) 下载 Spark Transform.ipynb****
 
-    > **备注**：如果在运行脚本期间发现笔记本没有上传，则应从 GitHub Allfiles/labs/11/notebooks[](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks) 下载名为 Spark Transform.ipynb 的文件并将其上传到 Synapse。
+    > **注意**：最好使用 ***ctrl+a*** 然后 ***ctrl+c*** 来复制此文本，然后使用 ***ctrl+v*** 粘贴到工具中（例如记事本），然后使用文件，另存为 **Spark Transform.ipynb**，文件类型为***所有文件***。 还可以选择 GitHub 中的文件，选择省略号，然后选择“下载”，将其保存到容易记住的位置。 
+    ![从 GitHub 下载笔记本文件](./images/select-download-notebook.png)
 
+10 然后在“开发”页上，展开“笔记本”，单击“+ 导入”选项********
+
+    ![Spark Notebook import](./image/../images/spark-notebook-import.png)
+        
+12. 选择刚下载并保存为 **Spark Transfrom.ipynb** 的文件。
+13. 将笔记本附加到 sparkxxxxxxx Spark 池**。
+14. 查看笔记本中的笔记并运行代码单元格。
+
+    > 注意：第一个代码单元需要几分钟才能运行，因为必须启动 Spark 池。 后续单元格的运行速度会更快。
 9. 查看笔记本包含的代码，请注意该代码：
     - 设置变量以定义唯一的文件夹名称。
     - 从 /data 文件夹加载 CSV 销售订单数据****。
@@ -99,8 +110,9 @@ lab:
 
     ![包含 Notebook 活动的管道的屏幕截图。](images/notebook-pipeline.png)
 
-4. 在 Notebook 活动的“常规”选项卡中，将其名称更改为“运行 Spark 转换”********。
-5. 在 Notebook 活动的“设置”选项卡中设置以下属性****：
+4. 
+5. 在 Notebook 活动的“常规”选项卡中，将其名称更改为“运行 Spark 转换”********。
+6. 在 Notebook 活动的“设置”选项卡中设置以下属性****：
     - **Notebook**：选择“Spark 转换”笔记本****。
     - **基参数**：展开此部分并使用以下设置定义参数：
         - **名称**：folderName
