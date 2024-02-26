@@ -65,7 +65,7 @@ lab:
 9. 右键单击任一文件，然后选择“预览”以查看它所包含的数据。 请注意，这些文件包含标题行，因此你可以选择显示列标题的选项。
 10. 关闭预览。 然后从 [Allfiles/labs/06/notebook](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/06/notebooks) 下载 Spark Transform.ipynb****
 
-    > **注意**：最好使用 ***ctrl+a*** 然后 ***ctrl+c*** 来复制此文本，然后使用 ***ctrl+v*** 粘贴到工具中（例如记事本），然后使用文件，另存为 **Spark Transform.ipynb**，文件类型为***所有文件***。 也可以通过单击该文件，再选择省略号，然后下载，记住保存文件的位置。
+    > **注意**：最好使用 ***ctrl+a*** 然后 ***ctrl+c*** 来复制此文本，然后使用 ***ctrl+v*** 粘贴到工具中（例如记事本），然后使用文件，另存为 **Spark Transform.ipynb**，文件类型为***所有文件***。 你也可以单击该文件，选择省略号 (...)，然后下载，记住保存它的位置。
     ![从 GitHub 下载 Spark 笔记本](./images/select-download-notebook.png)
 
 11. 然后在“**开发**”页上，展开“**笔记本**”，单击“+ 导入”选项
