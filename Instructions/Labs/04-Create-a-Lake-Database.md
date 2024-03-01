@@ -25,7 +25,7 @@ Azure Synapse Analytics 让你能够通过创建湖数据库，将数据湖中�
 
     ![具有 Cloud Shell 窗格的 Azure 门户](./images/cloud-shell.png)
 
-    > 注意：如果以前创建了使用 Bash 环境的 Cloud shell，请使用 Cloud Shell 窗格左上角的下拉菜单将其更改为“PowerShell”。
+    > **注意**：如果以前创建了使用 Bash 环境的 Cloud Shell，请使用 Cloud Shell 窗格左上角的下拉菜单将其更改为 PowerShell********。
 
 3. 请注意，可以通过拖动窗格顶部的分隔条或使用窗格右上角的 &#8212;、&#9723; 或 X 图标来调整 Cloud Shell 的大小，以最小化、最大化和关闭窗格  。 有关如何使用 Azure Cloud Shell 的详细信息，请参阅 [Azure Cloud Shell 文档](https://docs.microsoft.com/azure/cloud-shell/overview)。
 
@@ -52,8 +52,8 @@ Azure Synapse Analytics 让你能够通过创建湖数据库，将数据湖中�
 
 ## 修改容器权限
 
-1. 部署脚本完成后，在 Azure 门户转到它创建的 dp203-xxxxxxx 资源组，请注意，此资源组包含 Synapse 工作区、数据湖的存储帐户和 Apache Spark 池**。
-1. 为名为 datalakexxxxxxx 的数据湖选择“存储帐户” 
+1. 部署脚本完成后，请在 Azure 门户转到它创建的 dp203-xxxxxxx 资源组。请注意，此资源组包含 Synapse 工作区、数据湖的存储帐户和 Apache Spark 池****。
+1. 为名为 datalakexxxxxxx 的数据湖选择“存储帐户”******** 
 
      ![从数据湖导航到容器](./images/datalakexxxxxx-storage.png)
 
@@ -61,7 +61,7 @@ Azure Synapse Analytics 让你能够通过创建湖数据库，将数据湖中�
 
     ![选择 Data Lake 容器中的“文件文件夹”](./images/dp203-Container.png)
 
-1. 在“文件文件夹”中，会显示“身份验证方法:”为“访问密钥(切换到 Azure AD 用户帐户)”，单击此项更改为“Azure AD 用户帐户”。
+1. 在“文件文件夹”中，会显示“身份验证方法:”为“访问密钥（切换到 Azure Entra 用户帐户）”，单击此项更改为“Entra 用户帐户”。**************
 
     ![更改为“Azure AD 用户帐户”](./images/dp203-switch-to-aad-user.png)
 ## 创建 Lake 数据库
