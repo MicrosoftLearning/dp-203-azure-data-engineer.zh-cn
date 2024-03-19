@@ -112,7 +112,7 @@ lab:
 
 7. 将更改发布到脚本，然后关闭脚本窗格。
 
-## 使用 CREATE EXTERAL TABLE AS SELECT (CETAS) 语句转换数据
+## 使用 CREATE EXTERNAL TABLE AS SELECT (CETAS) 语句转换数据
 
 使用 SQL 转换文件中的数据并将结果保存在另一个文件中的一种简单方法是使用 CREATE EXTERNAL TABLE AS SELECT (CETAS) 语句。 此语句基于查询的请求创建表，但表的数据作为文件存储在数据湖中。 然后，可以通过外部表查询转换后的数据，或直接在文件系统中进行访问（例如，为包含到下游过程中，可以将转换后的数据加载到数据仓库）。
 
