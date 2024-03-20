@@ -18,6 +18,8 @@ lab:
 
 在本练习中，你将使用脚本在 Azure 订阅中预配新的 Azure Databricks 工作区和 Azure 数据工厂资源。
 
+> **提示**：如果已有*标准版*或*试用版* Azure Databricks 工作区<u>和</u> Azure 数据工厂 v2 资源，则可以跳过此过程。
+
 1. 在 Web 浏览器中，登录到 [Azure 门户](https://portal.azure.com)，网址为 `https://portal.azure.com`。
 2. 使用页面顶部搜索栏右侧的 [\>_] 按钮在 Azure 门户中创建新的 Cloud Shell，在出现提示时选择“PowerShell”环境并创建存储。 Cloud Shell 在 Azure 门户底部的窗格中提供命令行界面，如下所示：
 
@@ -50,13 +52,13 @@ lab:
 
 可以在 Azure Databricks 工作区中创建笔记本，运行用一系列编程语言编写的代码。 在本练习中，导入一个包含一些 Python 代码的现有笔记本。
 
-1. 在 Azure 门户中，浏览到由运行的脚本创建的 dp203-xxxxxxx 资源组。
-2. 选择 databricksxxxxxxx Azure Databricks 服务资源。
-3. 在 databricksxxxxxxx 的“概述”页中，使用“启动工作区”按钮在新的浏览器标签页中打开 Azure Databricks 工作区；并在出现提示时登录。
-4. 如果显示“当前数据项目是什么？”消息，请选择“完成”将其关闭 。 然后查看 Azure Databricks 工作区门户，注意左侧边栏包含可执行的各种任务的图标。
+1. 在 Azure 门户中，浏览到脚本创建的 **dp203-*xxxxxxx*** 资源组（或包含现有 Azure Databricks 工作区的资源组）
+1. 选择 Azure Databricks 服务资源（如果使用安装脚本创建，则名为 **databricks*xxxxxxx***）。
+1. 在工作区的“概述”**** 页中，使用“启动工作区”**** 按钮在新的浏览器标签页中打开 Azure Databricks 工作区；请在出现提示时登录。
 
-    >提示：使用 Databricks 工作区门户时，可能会显示各种提示和通知。 消除这些内容，并按照提供的说明完成本练习中的任务。
+    > 提示：使用 Databricks 工作区门户时，可能会显示各种提示和通知。 消除这些内容，并按照提供的说明完成本练习中的任务。
 
+1. 查看 Azure Databricks 工作区门户，请注意，左侧边栏包含可执行的各种任务的图标。
 1. 在左侧边栏中，选择“工作区”。 然后选择“&#8962; 主页”文件夹。
 1. 在页面顶部的用户名旁边的 &#8942; 菜单中，选择“导入” 。 然后在“导入”对话框中，选择“URL”并从 `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/27/Process-Data.ipynb` 导入笔记本
 1. 查看笔记本的内容，包括一些 Python 代码单元格，以便：
@@ -95,7 +97,7 @@ lab:
     - Databrick 工作区 URL：自动设置为 Databricks 工作区 URL
     - 身份验证类型：访问令牌
     - 访问令牌：粘贴访问令牌
-    - 群集版本：12.2 LTS（Scala 2.12、Spark 3.2.2）
+    - **群集版本**：13.3 LTS（Spark 3.4.1、Scala 2.12）
     - 群集节点类型：Standard_DS3_v2
     - Python 版本：3
     - 辅助角色选项：已修复
