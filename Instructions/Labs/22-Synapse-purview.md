@@ -120,7 +120,7 @@ Microsoft Purview 是一个全面的产品组合，涵盖数据治理、信息�
 
 Microsoft Purview 已被配置为使用托管标识。 为编录数据资产，此托管标识帐户必须有权访问 Azure Synapse Analytics 工作区及其 Data Lake Store 的存储帐户。
 
-1. 在 [Azure 门户](https://portal.azure.com)中，浏览到由安装脚本创建的 dp203-*xxxxxxx* 资源组并查看它创建的资源****。 其中包括：
+1. 在 [Azure 门户](https://portal.azure.com)中，浏览到由安装脚本创建的 dp203-*xxxxxxx* 资源组并查看它创建的资源****。 这些设置包括：
     - 名称类似于 *datalakexxxxxxx***** 的存储帐户。
     - 名称类似于 *purviewxxxxxxx*** 的 Microsoft Purview 帐户**。
     - 名称类似于 *sqlxxxxxxx*** 的专用 SQL 池**。

@@ -10,7 +10,7 @@ lab:
 
 完成此练习大约需要 15 分钟****。
 
-## 准备工作
+## 开始之前
 
 需要一个你在其中具有管理级权限的 [Azure 订阅](https://azure.microsoft.com/free)。
 
