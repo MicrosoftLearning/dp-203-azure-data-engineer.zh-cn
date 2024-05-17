@@ -31,14 +31,14 @@ Apache Spark 是用于分布式数据处理的开放源代码引擎，广泛用�
 4. 在 PowerShell 窗格中，输入以下命令以克隆此存储库：
 
     ```
-    rm -r dp500 -f
-    git clone https://github.com/MicrosoftLearning/DP-500-Azure-Data-Analyst dp500
+    rm -r dp203 -f
+    git clone  https://github.com/MicrosoftLearning/Dp-203-azure-data-engineer dp203
     ```
 
 5. 克隆存储库后，输入以下命令以更改为此实验室的文件夹，然后运行其中包含的 setup.ps1 脚本：
 
     ```
-    cd dp500/Allfiles/02
+    cd dp203/Allfiles/labs/05
     ./setup.ps1
     ```
 

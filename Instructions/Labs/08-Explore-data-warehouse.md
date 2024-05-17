@@ -32,14 +32,14 @@ Azure Synapse Analytics 工作区提供用于管理数据和数据处理运行�
 4. 在 PowerShell 窗格中，输入以下命令以克隆此存储库：
 
     ```
-    rm -r dp500 -f
-    git clone https://github.com/MicrosoftLearning/DP-500-Azure-Data-Analyst dp500
+    rm -r dp203 -f
+    git clone  https://github.com/MicrosoftLearning/Dp-203-azure-data-engineer dp203
     ```
 
 5. 克隆存储库后，输入以下命令以更改为此实验室的文件夹，然后运行其中包含的 setup.ps1 脚本：
 
     ```
-    cd dp500/Allfiles/03
+    cd dp203/Allfiles/labs/08
     ./setup.ps1
     ```
 
