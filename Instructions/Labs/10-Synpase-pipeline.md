@@ -127,6 +127,7 @@ lab:
             - 名称：Data_Warehouse
             - 说明：专用 SQL 池
             - 通过集成运行时连接：AutoResolveIntegrationRuntime
+            - **版本**：旧
             - 帐户选择方式：从 Azure 订阅
             - Azure 订阅：选择自己的 Azure 订阅
             - 服务器名称：synapsexxxxxxx（Synapse 工作区）
