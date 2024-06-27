@@ -117,6 +117,7 @@ Azure SQL 服务器托管名为 AdventureWorksLT 的示例数据库。 此数据
         - 名称：SqlAdventureWorksLT
         - 说明：与 AdventureWorksLT 数据库的连接
         - 通过集成运行时连接：AutoResolveIntegrationRuntime
+        - **版本**：旧
         - 连接字符串：已选择
         - 来自 Azure 订阅：已选择
         - Azure 订阅：选择自己的 Azure订阅
