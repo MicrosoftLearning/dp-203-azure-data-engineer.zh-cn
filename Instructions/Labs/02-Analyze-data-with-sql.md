@@ -39,7 +39,7 @@ Apache Spark 是用于分布式数据处理的开放源代码引擎，广泛用�
 5. 克隆存储库后，输入以下命令以更改为此实验室的文件夹，然后运行其中包含的 setup.ps1 脚本：
 
     ```
-    cd dp203/Allfiles/02
+    cd dp203/Allfiles/labs/02
     ./setup.ps1
     ```
 
