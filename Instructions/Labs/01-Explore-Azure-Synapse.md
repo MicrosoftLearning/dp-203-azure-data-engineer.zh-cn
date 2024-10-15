@@ -170,7 +170,7 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
     | ProductID | ProductName | 类别 | ListPrice |
     | 771 | Mountain-100 Silver, 38 | 山地自行车 | 3399.9900 |
     | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
-    | ... | ... | ... | ... |
+    | [.] | [.] | [.] | [.] |
 
 5. 请注意，结果由名为 C1、C2、C3 和 C4 的四列组成；结果中的第一行包含数据字段的名称。 要解决此问题，请将 HEADER_ROW = TRUE 参数添加到 OPENROWSET 函数，如下所示（将 datalakexxxxxxx 替换为数据湖存储帐户的名称），然后重新运行查询：
 
@@ -192,7 +192,7 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
     | -- | -- | -- | -- |
     | 771 | Mountain-100 Silver, 38 | 山地自行车 | 3399.9900 |
     | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
-    | ... | ... | ... | ... |
+    | [.] | [.] | [.] | [.] |
 
 6. 按如下方式修改查询（将 datalakexxxxxxx 替换为数据湖存储帐户的名称）：
 
@@ -215,7 +215,7 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
     | -- | -- |
     | Bib Shorts | 3 |
     | 自行车车架 | 1 |
-    | ... | ... |
+    | [.] | [.] |
 
 8. 在“SQL 脚本 1”的“属性”窗格中，将“名称”更改为“产品计数(按类别)”。 然后在工具栏中，选择“发布”以保存脚本。
 
@@ -264,7 +264,7 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
     | ProductID | ProductName | 类别 | ListPrice |
     | 771 | Mountain-100 Silver, 38 | 山地自行车 | 3399.9900 |
     | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
-    | ... | ... | ... | ... |
+    | [.] | [.] | [.] | [.] |
 
 6. 取消注释“,header=True”这一行（因为 products.csv 文件的第一行包含列标题），因此代码如下所示：
 
@@ -283,7 +283,7 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
     | -- | -- | -- | -- |
     | 771 | Mountain-100 Silver, 38 | 山地自行车 | 3399.9900 |
     | 772 | Mountain-100 Silver, 42 | 山地自行车 | 3399.9900 |
-    | ... | ... | ... | ... |
+    | [.] | [.] | [.] | [.] |
 
     请注意，再次运行单元格所花的时间会更短，因为 Spark 池已经启动了。
 
@@ -301,7 +301,7 @@ Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure
     | -- | -- |
     | 耳机 | 3 |
     | 车轮 | 14 |
-    | ... | ... |
+    | [.] | [.] |
 
 11. 在单元格的结果输出中，选择“图表”视图。 生成的图表应如下所示：
 
@@ -433,7 +433,7 @@ Azure Synapse Data Explorer provides a runtime that you can use to store and que
 
 1. 关闭 Synapse Studio 浏览器选项卡并返回到 Azure 门户。
 2. 在 Azure 门户的“主页”上，选择“资源组”。
-3. 选择 Synapse Analytics 工作区的 dp203-xxxxxxx 资源组（不是托管资源组），并确认它包含 Synapse 工作区、存储帐户、SQL 池、数据资源管理器池和工作区的 Spark 池。
+3. 选择 Synapse Analytics 工作区的 **dp203-*xxxxxxx*** 资源组（不是托管资源组），并验证它是否包含 Synapse 工作区、存储帐户、SQL 池和工作区的 Spark 池。
 4. 在资源组的“概述”页的顶部，选择“删除资源组”。
 5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” 。
 

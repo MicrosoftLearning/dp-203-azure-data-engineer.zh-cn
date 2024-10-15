@@ -49,8 +49,24 @@ lab:
     > 注意：请务必记住此密码！
 
 8. 等待脚本完成 - 这通常需要大约 15 分钟，但在某些情况下可能需要更长的时间。 在等待时，请查看 Microsoft Purview 文档中的 [Microsoft Purview 治理门户中有哪些可用功能？](https://docs.microsoft.com/azure/purview/overview)一文。
+9. 脚本完成后，查看输出，并注意已为资源名称生成了 *xxxxxxx* 格式的唯一后缀，例如，已创建的资源组名为 **dp203-* xxxxxxx***。 记下此后缀 - 稍后在创建其他资源时将需要此后缀。
 
 > **提示**：如果你在运行安装脚本后决定不完成实验室，请务必删除在 Azure 订阅中创建的 dp203-*xxxxxxx* 资源组，以避免产生不必要的 Azure 成本****。
+
+## 探索 Azure Synapse Analytics 工作区
+
+该脚本已创建一个 Azure Synapse Analytics 工作区，你可以使用 Azure Synapse Studio 基于 Web 的界面探索和管理该工作区。 工作区包括一个专用 SQL 池，为避免产生不必要的成本，该池已暂停。 你很快就会需要该池，因此最好趁现在进行恢复。
+
+1. 在 Azure 门户中的 Synapse Analytics 工作区的页面上，查看“概述”选项卡。然后，在“打开 Synapse Studio”磁贴中，使用链接在新浏览器选项卡中打开 Azure Synapse Studio，并按提示进行登录********。
+
+    >**提示**：或者，可以通过在新的浏览器选项卡中直接浏览到 https://web.azuresynapse.net 来打开 Azure Synapse Studio。
+
+2. 在 Synapse Studio 左侧，使用 &rsaquo;&rsaquo; 图标展开菜单，这将显示 Synapse Studio 中的不同页面。
+3. 在“管理”页的“SQL 池”选项卡上，选择 sqlxxxxxxx 专用 SQL 池所在的行，并使用其 &#9655; 图标进行启动；在出现系统提示时确认进行恢复   **。
+
+    ![Synapse Studio 中 SQL 池页面的屏幕截图。](./images/resume-sql-pool.png)
+
+4. 恢复池可能需要几分钟时间。 可以使用“&#8635; 刷新”按钮定期检查其状态。 状态将在准备就绪时显示为“联机”。 等待时，请继续执行以下步骤以创建湖数据库 - 然后返回到“**管理**”页，确保专用 SQL 池处于联机状态。
 
 ## 创建湖数据库
 
@@ -58,69 +74,56 @@ lab:
 
 可以在 Synapse SQL 无服务器 SQL 池和 Apache Spark 中访问湖数据库，使用户能够将存储与计算分开。 湖数据库的元数据让不同的引擎可以轻松提供集成体验，并使用数据湖不支持的额外信息（比如关系）。
 
-1. 若要创建湖数据库，请先从适当的资源组中打开 synapsexxxxxxxxxx，然后在 Synapse Studio上 单击“打开”链接。 
-2. 接下来，单击包含扳手的工具箱，这也是 Synapse Analytics 工作区的“管理”部分，并确保专用池正在运行。 这可能需要几分钟时间才能开始。
-3. 在此处，我们将单击数据库符号，该符号看起来像桶，并具有数据标签。
-4. 在“数据”面板中，单击“数据”一词右侧的“+”符号，然后选择“Lake 数据库”
-   
-    ![创建初始 lakedb 数据库](./images/lakedb-configure.png)
+1. 在 Azure Synapse Studio 中查看“数据”页，并在“工作区”选项卡中展开“SQL 数据库”以查看工作区中的数据库************。 这些数据库应包括刚刚恢复的 **sql*xxxxxxx*** 专用 SQL 池数据库。
+2. 在“**数据**”窗格中的“**+**”菜单中，选择“**湖数据库**以向工作区添加新的湖数据库。
 
-> 注意：你将收到“Azure Synapse数据库模板使用条款”提示，需在单击“确定”按钮之前阅读并理解。
+    > 注意：你将收到“Azure Synapse数据库模板使用条款”提示，需在单击“确定”按钮之前阅读并理解。
 
-5. 最右侧有一个“属性”窗口。
-   1. 在名称字段中键入“lakedb”。
-   1. 在“输入文件夹”下选择文件夹，浏览到根/文件/数据，然后按“确定”。
+3. 在新的湖数据库（右侧）的“**属性**”窗格中，设置以下属性：
+    - **名称**：lakedb
+    - **输入文件夹**：*浏览到 **root/files/data***
 
->注意：打开“输入文件夹”时可能会看到错误，这时只需双击根文件夹，在单击“确定”前先向下找到数据。
+    >**注意**：打开“**输入文件夹**”时可能会看到错误，这时只需双击根文件夹，在单击“**确定**”前先向下找到数据。
 
-   1. 在此屏幕左侧，你将看到一个支柱，其名称为 lakedb，下方有一个“+表”，单击此项，然后选择“从数据湖”
-   1. 在“外部表名称”下键入：Products。
-   1. 在“链接服务”下，选择默认选项。
-   1. 在“输入文件或文件夹”中，单击最右侧的文件文件夹，浏览到根 > 文件 > 数据 >，选择“products.csv”并单击“确定”，然后单击“继续”。
+4. 在左侧的“**表**”窗格中的“**+ 表**”菜单中，选择“***从数据湖***”。 然后添加具有以下属性的新表:
+    - ***外部表名称***：产品
+    - ***链接服务***：synapse*xxxxxxx*-WorkspaceDefaultStorage(datalake*xxxxxxx*)
+    - ***输入文件或文件夹***：files/data/products.csv
 
-6. 在“新建外部表”窗格中，选择“第一行”选项以推断列名，然后单击“创建”。
+5. 单击“**继续**”，在“**新建外部表**”窗格中，选择“第一行”选项以***推断列名***，然后单击“**创建**”。
 
-![设置外部源](./images/lakedb-external-table-source.png)
-
-7. 按下查询设计窗口顶部的“发布”。
-8. 在“数据”下，确保位于左侧的“工作区”区域，展开“湖数据库”部分，展开“lakedb”，然后将鼠标悬停在“产品”表右侧并选择“前 100 行”。
-
-![从外部源派生的表结构](./images/lakedb-external-table-definition.png)
-
-> 注意：要确保“连接到”列为“内置”，可以保持主数据库处于选中状态，或单击右侧的“刷新”按钮并选择“lakedb”数据库。 由于它使用[数据库].[架构].[表]的 3 部分命名约定，因此两者都可以使用。
+6. 选择“湖数据库”窗口顶部的“**发布**”以保存更改
+7. 在“**数据**”窗格中，展开“**湖数据库**”部分，展开“**lakedb**”，然后在“**产品**”表的 **...** 菜单中，选择“**创建 SQL 脚本**” > “***前 100 行***”。
+8. 确保“**连接到**”列为“**内置**”，然后刷新“**使用数据库**”列表并选择“**lakedb**”。
 
 ![湖数据库中的首次外部查询](./images/lakedb-first-external-query.png)
 
-9. 按“运行”按钮查看 lake 数据库表中的数据。
+9. 使用“**运行**”按钮运行查询并查看“**产品**”表中的数据。
 
-## 将 Microsoft Purview 服务添加到帐户
+## 添加和配置 Microsoft Purview 服务帐户
 
-Microsoft Purview 是一个全面的产品组合，涵盖数据治理、信息保护、风险管理和合规性解决方案。 它可以帮助你治理、保护和管理本地、多云和服务型软件 (SaaS) 数据中的全部数据资产
+Microsoft Purview 是一个全面的产品组合，涵盖数据治理、信息保护、风险管理和合规性解决方案。 它可以帮助你治理、保护和管理本地、多云和服务型软件 (SaaS) 数据中的全部数据资产。
 
-若要进行设置，要先返回到主资源组，该资源组将基于分配的随机数命名为 dp203-xxxxxxx。 进入资源组后，单击“+ 创建”按钮以添加新服务。
+### 预配 Microsoft Purview 帐户
 
-1. 选择“Microsoft Purview 服务”，然后单击“创建”按钮。
-2. 在创建过程中，由于是在相应的资源组中开始的，因此它应该已被选中。 接下来，我们将使用随机分配的号码为 Purview 提供一个名称。 接下来，为实例选择最佳区域。
+> **注意**：Purview 资源在单个 Azure 租户中受到限制。 如果正在使用的租户已使用其 Azure Purview 实例的配额，则无法创建新实例。 如果可能，可以在本练习的其余部分使用现有的 Microsoft Purview 资源。
 
-   ![创建 Purview](./images/purview-create.png)
+1. 返回到包含 Azure 门户的浏览器选项卡，并查看 **dp203-*xxxxxxx*** 资源组。
+2. 使用“**+ 创建**”按钮，以使用以下设置将新的 **Microsoft Purview** 资源添加到资源组：
+    - 订阅：选择你的订阅
+    - **资源组**：dp203-*xxxxxxx*
+    - **Microsoft Purview 帐户名称**：purview*xxxxxxx**（其中 *xxxxxxx* 是唯一后缀）*
+    - **位置**：*选择任何可用区域*
 
-3. 单击“查看 & 创建”按钮，等待验证，然后继续操作。
+    > 注意：可能需要尝试几个区域，才能通过 Purview 验证。
 
-   ![验证 Purview](./images/validation-passed.png)
-
-4. 通过验证后，请选择“创建”按钮。
-
-> 注意：可能需要尝试几个区域，才能通过 Purview 验证。
-
-## 在 Microsoft Purview 中编目 Azure Synapse Analytics 数据资产
-
-借助 Microsoft Purview，可以跨数据资产（包括 Azure Synapse 工作区中的数据源）对数据资产进行编目。 刚刚部署的工作区包括 Azure Data Lake Storage Gen2 帐户中的数据湖、无服务器数据库和专用 SQL 池中的数据仓库。
+3. 等待资源创建，然后返回到 **dp203-*xxxxxxx*** 资源组，并确保该资源已列出（可能需要刷新页面）。
 
 ### 为 Microsoft Purview 配置基于角色的访问控制
 
 Microsoft Purview 已被配置为使用托管标识。 为编录数据资产，此托管标识帐户必须有权访问 Azure Synapse Analytics 工作区及其 Data Lake Store 的存储帐户。
 
-1. 在 [Azure 门户](https://portal.azure.com)中，浏览到由安装脚本创建的 dp203-*xxxxxxx* 资源组并查看它创建的资源****。 这些设置包括：
+1. 在 **dp203-*xxxxxxx*** 资源组中，查看已创建的资源。 这些设置包括：
     - 名称类似于 *datalakexxxxxxx***** 的存储帐户。
     - 名称类似于 *purviewxxxxxxx*** 的 Microsoft Purview 帐户**。
     - 名称类似于 *sqlxxxxxxx*** 的专用 SQL 池**。
@@ -146,50 +149,42 @@ Microsoft Purview 已被配置为使用托管标识。 为编录数据资产，�
 
 Azure Synapse Analytics 工作区包括无服务器和专用 SQL 池中的数据库，Microsoft Purview 使用的托管标识需要访问这些数据库****。
 
-1. 在 Azure 门户中的 Synapse Analytics 工作区的页面上，查看“概述”选项卡。然后，在“打开 Synapse Studio”磁贴中，使用链接在新浏览器选项卡中打开 Azure Synapse Studio，并按提示进行登录********。
-
-    >**提示**：或者，可以通过在新的浏览器选项卡中直接浏览到 https://web.azuresynapse.net 来打开 Azure Synapse Studio。
-
-2. 在 Synapse Studio 左侧，使用 &rsaquo;&rsaquo; 图标展开菜单，这将显示 Synapse Studio 中的不同页面。
-3. 在“管理”页的“SQL 池”选项卡上，选择 sqlxxxxxxx 专用 SQL 池所在的行，并使用其 &#9655; 图标进行启动；在出现系统提示时确认进行恢复   **。
-
-    ![Synapse Studio 中 SQL 池页面的屏幕截图。](./images/resume-sql-pool.png)
-
-4. 等待 SQL 池恢复。 这可能需要几分钟的时间。 可以使用“&#8635; 刷新”按钮定期检查其状态。 状态将在准备就绪时显示为“联机”。
-5. 在 Azure Synapse Studio 中查看“数据”页，并在“工作区”选项卡中展开“SQL 数据库”以查看工作区中的数据库************。 其中应包括：
-    - 名为 lakedb 的无服务器 SQL 池数据库****。
+1. 返回到包含 Azure AI Studio 的浏览器标签页。 然后，查看“**数据**”页以查看工作区中的数据库。 其中应包括：
+    - 名为 **lakedb** 的湖数据库。
     - 名为 *sql xxxxxxx*** 的专用 SQL 池数据库**。
 
-    ![Synapse Studio 中“数据”页的屏幕截图，其中列出了两个 SQL 数据库](./images/sql-databases.png)
-
-6. 选择 lakedb 数据库，然后在其“...”菜单中选择“新建 SQL 脚本” > “空脚本”以打开新的“SQL 脚本 1”窗格********************。 然后使用工具栏右端的“属性”按钮（看起来类似于“&#128463;”<sub>*</sub>）隐藏“属性”窗格，从而更清楚地查看脚本窗格************。
+2. 选择 lakedb 数据库，然后在其“...”菜单中选择“新建 SQL 脚本” > “空脚本”以打开新的“SQL 脚本 1”窗格********************。 然后使用工具栏右端的“属性”按钮（看起来类似于“&#128463;”<sub>*</sub>）隐藏“属性”窗格，从而更清楚地查看脚本窗格************。
 7. 在“SQL 脚本 1”窗格中，输入以下 SQL 代码，并将其中出现的所有 purviewxxxxxxx 替换为自己的 Microsoft Purview 帐户的托管标识名称**********：
 
     ```sql
-    CREATE LOGIN purviewxxxxxxx FROM EXTERNAL PROVIDER;
+    CREATE LOGIN [purviewxxxxxxx] FROM EXTERNAL PROVIDER;
     GO
 
-    CREATE USER purviewxxxxxxx FOR LOGIN purviewxxxxxxx;
+    CREATE USER [purviewxxxxxxx] FOR LOGIN [purviewxxxxxxx];
     GO
 
-    ALTER ROLE db_datareader ADD MEMBER purviewxxxxxxx;
+    ALTER ROLE db_datareader ADD MEMBER [purviewxxxxxxx];
     GO
     ```
 
-8. 使用“&#9655; 运行”按钮运行脚本，该脚本在无服务器池中创建一个登录名，在 lakedb 用户中为 Microsoft Purview 使用的托管标识创建一个用户，并将该用户添加到 lakedb 数据库中的 db_datareader 角色****************。
-9. 为 sql*xxxxxxx* 专用 SQL 池数据库创建一个新的空脚本，并使用它来运行以下 SQL 代码（将 purviewxxxxxxx 替换为自己的 Microsoft Purview 帐户的托管标识名称），这样能在专用 SQL 池中为 Microsoft Purview 使用的托管标识创建用户，并将其添加到 sql*xxxxxxx* 数据库中的 db_datareader 角色******************。
+3. 使用“**&#9655; 运行**”按钮运行脚本，该脚本会创建一个登录名，在 **lakedb** 用户中为 Microsoft Purview 使用的托管标识创建一个用户，并将该用户添加到 **lakedb** 数据库中的 **db_datareader** 角色。
+4. 为 sql*xxxxxxx* 专用 SQL 池数据库创建一个新的空脚本，并使用它来运行以下 SQL 代码（将 purviewxxxxxxx 替换为自己的 Microsoft Purview 帐户的托管标识名称），这样能在专用 SQL 池中为 Microsoft Purview 使用的托管标识创建用户，并将其添加到 sql*xxxxxxx* 数据库中的 db_datareader 角色******************。
 
     ```sql
-    CREATE USER purviewxxxxxxx FROM EXTERNAL PROVIDER;
+    CREATE USER [purviewxxxxxxx] FROM EXTERNAL PROVIDER;
     GO
 
-    EXEC sp_addrolemember 'db_datareader', purviewxxxxxxx;
+    EXEC sp_addrolemember 'db_datareader', [purviewxxxxxxx];
     GO
     ```
+
+## 使用 Microsoft Purview 扫描数据资源
+
+现在，你已配置 Microsoft Purview 所需的访问权限以扫描 Azure Synapse Analytics 工作区使用的数据源，可以在 Microsoft Purview 目录中注册这些数据源。
 
 ### 在 Microsoft Purview 目录中注册源
 
-现在，你已配置 Microsoft Purview 所需的访问权限以扫描 Azure Synapse Analytics 工作区使用的数据源，可以在 Microsoft Purview 目录中注册这些数据源。
+借助 Microsoft Purview，可以跨数据资产（包括 Azure Synapse 工作区中的数据源）对数据资产进行编目。 刚刚部署的工作区包括 Azure Data Lake Storage Gen2 帐户中的数据湖、湖数据库和专用 SQL 池中的数据仓库。
 
 1. 切换回包含 Azure 门户的浏览器选项卡，并查看 dp203-*xxxxxxx* 资源组的页面****。
 2. 打开 purview*xxxxxxx* Microsoft Purview 帐户，使用“概述”页上的链接在新的浏览器选项卡中打开 Microsoft Purview 治理门户，并按提示进行登录************。
@@ -197,7 +192,7 @@ Azure Synapse Analytics 工作区包括无服务器和专用 SQL 池中的数据
     >**提示**：你也可以直接在新的浏览器选项卡中浏览到 https://web.purview.azure.com。
 
 3. 在 Azure Purview 治理门户左侧，使用 &rsaquo;&rsaquo; 图标展开菜单，这将显示门户中的不同页面****。
-4. 在“数据映射”页上的“源”子页面上选择“注册”************：
+4. 在“**数据映射**”页的“**数据源**”子页上选择“**注册**”：
 
     ![Microsoft Purview 治理门户中“数据映射”页的屏幕截图。](./images/purview-register.png)
 

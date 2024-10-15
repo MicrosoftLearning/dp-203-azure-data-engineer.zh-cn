@@ -108,7 +108,7 @@ lab:
     | SalesOrderNumber | SalesOrderLineNumber | OrderDate | CustomerName | EmailAddress | 项 | 数量 | 单价 | TaxAmount |
     | -- | -- | -- | -- | -- | -- | -- | -- | -- |
     | SO43701 | 1 | 2019-07-01 | Christy Zhu | christy12@adventure-works.com |Mountain-100 Silver, 44 | 1 | 3399.99 | 271.9992 |
-    | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+    | [.] | [.] | [.] | [.] | [.] | [.] | [.] | [.] | [.] |
 
 7. 将更改发布到脚本，然后关闭脚本窗格。
 
@@ -180,7 +180,7 @@ lab:
     | 产品 | ItemsSold | NetRevenue |
     | -- | -- | -- |
     | AWC Logo Cap | 1063 | 8791.86 |
-    | ... | ... | ... |
+    | [.] | [.] | [.] |
 
 4. 修改 SQL 代码以将查询结果保存在外部表中，如下所示：
 
