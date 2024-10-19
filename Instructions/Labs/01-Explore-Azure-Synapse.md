@@ -54,7 +54,7 @@ Azure Synapse Analytics 工作区提供用于管理数据和数据处理运行�
 
 Synapse Studio 是一个基于 Web 的门户，可在其中管理并使用 Azure Synapse Analytics 工作区中的资源。
 
-1. 安装脚本运行完毕后，在 Azure 门户中，转到其创建的 dp203-xxxxxxx 资源组，注意此资源组包含 Synapse 工作区、数据湖的存储帐户、Apache Spark 池、数据资源管理器池和专用 SQL 池。
+1. 安装脚本运行完毕后，在 Azure 门户中，转到其创建的 **dp203-*xxxxxxx*** 资源组，注意此资源组包含 Synapse 工作区、数据湖的存储帐户、Apache Spark 池和专用 SQL 池。
 2. 选择 Synapse 工作区，并在其“概述”页的“打开 Synapse Studio”卡中选择“打开”，在新的浏览器标签页中打开 Synapse Studio。Synapse Studio 是一个基于 Web 的界面，可用于处理 Synapse Analytics 工作区  。
 3. 在 Synapse Studio 左侧，使用 &rsaquo;&rsaquo; 图标展开菜单，这将显示 Synapse Studio 中用于管理资源和执行数据分析任务的不同页面，如下所示：
 
@@ -433,7 +433,7 @@ Azure Synapse Data Explorer provides a runtime that you can use to store and que
 
 1. 关闭 Synapse Studio 浏览器选项卡并返回到 Azure 门户。
 2. 在 Azure 门户的“主页”上，选择“资源组”。
-3. 选择 Synapse Analytics 工作区的 dp203-xxxxxxx 资源组（不是托管资源组），并确认它包含 Synapse 工作区、存储帐户、SQL 池、数据资源管理器池和工作区的 Spark 池。
+3. 选择 Synapse Analytics 工作区的 **dp203-*xxxxxxx*** 资源组（不是托管资源组），并验证它是否包含 Synapse 工作区、存储帐户、SQL 池和工作区的 Spark 池。
 4. 在资源组的“概述”页的顶部，选择“删除资源组”。
 5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” 。
 

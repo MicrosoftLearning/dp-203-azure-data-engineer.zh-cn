@@ -1,22 +1,22 @@
 ---
 lab:
-  title: 使用 Spark 分析 Data Lake 中的数据
-  module: 'Model, query, and explore data in Azure Synapse'
+  title: 使用无服务器 SQL 池查询文件
+  ilt-use: Lab
 ---
 
-# 使用 Spark 分析 Data Lake 中的数据
+# 使用无服务器 SQL 池查询文件
 
-Apache Spark 是用于分布式数据处理的开放源代码引擎，广泛用于探索、处理和分析 Data Lake Storage 中的大量数据。 Spark 在许多数据平台产品中作为处理选项提供，包括 Azure HDInsight、Azure Databricks 和 Microsoft Azure 云平台上的 Azure Synapse Analytics。 Spark 的优点之一是支持各种编程语言，包括 Java、Scala、Python 和 SQL；这让 Spark 一种非常灵活的数据处理工作负载（包括数据清理和操作、统计分析和机器学习以及数据分析和可视化）解决方案。
+SQL 可能是世界上处理数据最常用的语言。 大多数数据分析师都擅长使用 SQL 查询来检索、筛选和聚合数据 - 这在关系数据库中最常见。 随着组织越来越多地利用可缩放的文件存储来创建 Data Lake，SQL 通常仍是查询数据的首选选项。 Azure Synapse Analytics 提供了无服务器 SQL 池，使你能够将 SQL 查询引擎与数据存储分离，并针对通用文件格式（如分隔文本和 Parquet）的数据文件运行查询。
 
-完成本实验室大约需要 45 分钟。
+完成本实验室大约需要 40 分钟。
 
-## 准备工作
+## 开始之前
 
 需要一个你在其中具有管理级权限的 [Azure 订阅](https://azure.microsoft.com/free)。
 
 ## 预配 Azure Synapse Analytics 工作区
 
-需要一个 Azure Synapse Analytics 工作区，该工作区可以访问 Data Lake Storage 和 Apache Spark 池（可用于查询和处理 Data Lake 中的文件）。
+需要一个 Azure Synapse Analytics 工作区才能访问 Data Lake Storage。 可以使用内置的无服务器 SQL 池查询 Data Lake 中的文件。
 
 在本练习中，你将组合使用 PowerShell 脚本和 ARM 模板来预配 Azure Synapse Analytics 工作区。
 
@@ -29,11 +29,11 @@ Apache Spark 是用于分布式数据处理的开放源代码引擎，广泛用�
 
 3. 请注意，可以通过拖动窗格顶部的分隔条或使用窗格右上角的 &#8212;、&#9723; 或 X 图标来调整 Cloud Shell 的大小，以最小化、最大化和关闭窗格  。 有关如何使用 Azure Cloud Shell 的详细信息，请参阅 [Azure Cloud Shell 文档](https://docs.microsoft.com/azure/cloud-shell/overview)。
 
-4. 在 PowerShell 窗格中，输入以下命令以克隆此存储库：
+4. 在 PowerShell 窗格中，手动输入以下命令以克隆此存储库：
 
     ```
     rm -r dp203 -f
-    git clone https://github.com/MicrosoftLearning/DP-203-Azure-Data-Engineer dp203
+    git clone https://github.com/MicrosoftLearning/dp-203-azure-data-engineer dp203
     ```
 
 5. 克隆存储库后，输入以下命令以更改为此实验室的文件夹，然后运行其中包含的 setup.ps1 脚本：
@@ -48,7 +48,7 @@ Apache Spark 是用于分布式数据处理的开放源代码引擎，广泛用�
 
     > 注意：请务必记住此密码！
 
-8. 等待脚本完成 - 此过程通常需要大约 10 分钟；但在某些情况下可能需要更长的时间。 等待时，请查看 Azure Synapse Analytics 文档中的 [Azure Synapse Analytics 中的 Apache Spark](https://docs.microsoft.com/azure/synapse-analytics/spark/apache-spark-overview) 一文。
+8. 等待脚本完成 - 此过程通常需要大约 10 分钟；但在某些情况下可能需要更长的时间。 等待时，请查看 Azure Synapse Analytics 文档中的 [Azure Synapse Analytics 中的无服务器 SQL 池](https://docs.microsoft.com/azure/synapse-analytics/sql/on-demand-workspace-overview)一文。
 
 ## 查询文件中的数据
 
@@ -56,368 +56,326 @@ Apache Spark 是用于分布式数据处理的开放源代码引擎，广泛用�
 
 ### 查看 Data Lake 中的文件
 
-1. 脚本完成后，在 Azure 门户中转到创建的 dp500-*xxxxxxx* 资源组，然后选择 Synapse 工作区。
+1. 脚本完成后，在 Azure 门户中转到创建的 dp203-*xxxxxxx* 资源组，然后选择 Synapse 工作区。
 2. 在 Synapse 工作区“概述”页的“打开 Synapse Studio”卡中，选择“打开”，以在新浏览器标签页中打开 Synapse Studio；如果出现提示，请进行登录  。
 3. 在 Synapse Studio 左侧，使用 &rsaquo;&rsaquo; 图标展开菜单，这将显示 Synapse Studio 中用于管理资源和执行数据分析任务的不同页面。
-4. 在“管理”页上，选择“Apache Spark 池”选项卡，请注意工作区中已预配名称类似于 spark*xxxxxxx* 的 Spark 池  。 稍后，你将使用此 Spark 池从工作区的 Data Lake Storage 的文件中加载和分析数据。
-5. 在“数据”页上，查看“已链接”选项卡并验证工作区是否包含 Azure Data Lake Storage Gen2 存储帐户的链接，该帐户的名称应类似于 synapsexxxxxxx* (Primary - datalake xxxxxxx*) ** 。
-6. 展开存储帐户，验证它是否包含名为 files 的文件系统容器。
-7. 选择“files”容器，并注意它包含名为 sales 和 synapse 的文件夹  。 synapse 文件夹由 Azure Synapse 使用，而 sales 文件夹包含要查询的数据文件 。
-8. 打开 sales 文件夹及其包含的 orders 文件夹，并观察 orders 文件夹中包含具有三年销售数据的 .csv 文件  。
-9. 右键单击任一文件，然后选择“预览”以查看它所包含的数据。 请注意，这些文件不包含标题行，因此你可以取消选择显示列标题的选项。
+4. 在“数据”页上，查看“已链接”选项卡并验证工作区是否包含 Azure Data Lake Storage Gen2 存储帐户的链接，该帐户的名称应类似于 synapsexxxxxxx* (Primary - datalake xxxxxxx*) ** 。
+5. 展开存储帐户，验证它是否包含名为 files 的文件系统容器。
+6. 选择“files”容器，并注意它包含名为 sales 的文件夹 。 此文件夹包含要查询的数据文件。
+7. 打开 sales 文件夹及其包含的 csv 文件夹，注意此文件夹中包含具有三年销售数据的 .csv 文件 。
+8. 右键单击任一文件，然后选择“预览”以查看它所包含的数据。 请注意，这些文件不包含标题行，因此你可以取消选择显示列标题的选项。
+9. 关闭预览，然后使用“&#8593;”按钮导航回 sales 文件夹 。
+10. 在 sales 文件夹中，打开 json 文件夹，注意它包含 .json 文件中的一些示例销售订单 。 预览这些文件中的任何一个，以查看用于销售订单的 JSON 格式。
+11. 关闭预览，然后使用“&#8593;”按钮导航回 sales 文件夹 。
+12. 在 sales 文件夹中，打开 parquet 文件夹，注意它包含（2019-2021 年）每年的子文件夹，每个子文件夹中名为 orders.snappy.parquet 的每个文件包含该年份的订单数据  。 
+13. 返回到 sales 文件夹，以便可以看到 csv、 json 和 parquet 文件夹   。
 
-### 使用 Spark 浏览数据
+### 使用 SQL 查询 CSV 文件
 
-1. 选择 orders 文件夹中的任意文件，然后在工具栏上的“新建笔记本”列表中选择“加载到 DataFrame”  。 数据帧是 Spark 中表示表格数据集的结构。
-2. 在打开的新“笔记本 1”选项卡中的“附加到”列表中，选择 Spark 池 (*sparkxxxxxxx***) 。 然后使用“&#9655; 全部运行”运行笔记本中的所有单元格（目前只有一个！）。
+1. 选择 csv 文件夹，然后在工具栏上的“新建 SQL 脚本”列表中，选中“选择前 100 行”  。
+2. 在“文件类型”列表中，选择“文本格式”，然后应用设置以打开查询文件夹中数据的新 SQL 脚本 。
+3. 在创建的 SQL 脚本 1 的“属性”窗格中，将名称更改为“Sales CSV 查询”，并更改结果设置以显示“所有行”   。 然后在工具栏中，选择“发布”以保存脚本并使用工具栏右侧的“属性”按钮（类似于 &#128463;.）隐藏“属性”窗格   。
+4. 查看已经生成的 SQL 代码，代码应该类似于：
 
-    由于这是你第一次在此会话中运行 Spark 代码，因此必须启动 Spark 池。 这意味着会话中的第一次运行可能需要几分钟时间。 后续运行速度会更快。
-
-3. 在等待 Spark 会话初始化时，请查看生成的代码；如下所示：
-
-    ```Python
-    %%pyspark
-    df = spark.read.load('abfss://files@datalakexxxxxxx.dfs.core.windows.net/sales/orders/2019.csv', format='csv'
-    ## If header exists uncomment line below
-    ##, header=True
-    )
-    display(df.limit(10))
+    ```SQL
+    -- This is auto-generated code
+    SELECT
+        TOP 100 *
+    FROM
+        OPENROWSET(
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/csv/',
+            FORMAT = 'CSV',
+            PARSER_VERSION='2.0'
+        ) AS [result]
     ```
 
-4. 代码运行完成后，请查看笔记本中单元格下方的输出。 它显示所选文件中的前十行，它们采用 _c0、_c1、_c2 等格式的自动列名  。
-5. 修改代码，使 spark.read.load 函数从文件夹中<u>所有</u> CSV 文件中读取数据，使 display 函数显示前 100 行 。 代码应类似于（datalakexxxxxxx 与 Data Lake Storage 的名称相匹配）：
+    此代码使用 OPENROWSET 从 sales 文件夹中的 CSV 文件读取数据，并检索前 100 行数据。
 
-    ```Python
-    %%pyspark
-    df = spark.read.load('abfss://files@datalakexxxxxxx.dfs.core.windows.net/sales/orders/*.csv', format='csv'
-    )
-    display(df.limit(100))
+5. 在“连接到”列表中，确保已选中“内置”，这表示通过工作区创建的内置 SQL 池。
+6. 在工具栏上，使用“▷ 运行”按钮运行 SQL 代码，并查看结果，结果应如下所示：
+
+    | C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | C9 |
+    | -- | -- | -- | -- | -- | -- | -- | -- | -- |
+    | SO45347 | 1 | 2020-01-01 | Clarence Raji | clarence35@adventure-works.com |Road-650 Black, 52 | 1 | 699.0982 | 55.9279 |
+    | [.] | [.] | [.] | [.] | [.] | [.] | [.] | [.] | [.] |
+
+7. 请注意，结果由名为 C1、C2 等的列组成。 在此示例中，CSV 文件不包含列标题。 虽然可以使用已分配的泛型列名或按序号位置处理数据，但如果定义表格架构，则更容易理解数据。 为此，请向如下所示的 OPENROWSET 函数添加 WITH 子句（将 datalakexxxxxxx 替换为 Data Lake Storage 帐户的名称），然后重新运行查询：
+
+    ```SQL
+    SELECT
+        TOP 100 *
+    FROM
+        OPENROWSET(
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/csv/',
+            FORMAT = 'CSV',
+            PARSER_VERSION='2.0'
+        )
+        WITH (
+            SalesOrderNumber VARCHAR(10) COLLATE Latin1_General_100_BIN2_UTF8,
+            SalesOrderLineNumber INT,
+            OrderDate DATE,
+            CustomerName VARCHAR(25) COLLATE Latin1_General_100_BIN2_UTF8,
+            EmailAddress VARCHAR(50) COLLATE Latin1_General_100_BIN2_UTF8,
+            Item VARCHAR(30) COLLATE Latin1_General_100_BIN2_UTF8,
+            Quantity INT,
+            UnitPrice DECIMAL(18,2),
+            TaxAmount DECIMAL (18,2)
+        ) AS [result]
     ```
 
-6. 使用代码单元格左侧的“&#9655;”按钮仅运行该单元格，然后查看结果。
+    现在，结果如下所示：
 
-    数据帧现包含所有文件的数据，但列名没有用。 Spark 使用“读取时架构”方法来尝试根据列包含的数据确定列的适当数据类型，如果文本文件中存在标题行，则可以使用它来标识列名（方法是在 load 函数中指定 header=True 参数） 。 或者，可以为数据帧定义显式架构。
+    | SalesOrderNumber | SalesOrderLineNumber | OrderDate | CustomerName | EmailAddress | 项 | 数量 | 单价 | TaxAmount |
+    | -- | -- | -- | -- | -- | -- | -- | -- | -- |
+    | SO45347 | 1 | 2020-01-01 | Clarence Raji | clarence35@adventure-works.com |Road-650 Black, 52 | 1 | 699.10 | 55.93 |
+    | [.] | [.] | [.] | [.] | [.] | [.] | [.] | [.] | [.] |
 
-7. 按如下方式修改代码（替换 datalakexxxxxxx），为包含列名和数据类型的数据帧定义显式架构。 在单元格中重新运行代码。
+8. 将更改发布到脚本，然后关闭脚本窗格。
 
-    ```Python
-    %%pyspark
-    from pyspark.sql.types import *
-    from pyspark.sql.functions import *
+### 使用 SQL 查询 parquet 文件
 
-    orderSchema = StructType([
-        StructField("SalesOrderNumber", StringType()),
-        StructField("SalesOrderLineNumber", IntegerType()),
-        StructField("OrderDate", DateType()),
-        StructField("CustomerName", StringType()),
-        StructField("Email", StringType()),
-        StructField("Item", StringType()),
-        StructField("Quantity", IntegerType()),
-        StructField("UnitPrice", FloatType()),
-        StructField("Tax", FloatType())
-        ])
+虽然 CSV 是一种易于使用的格式，但在大数据处理场景中通常使用已针对压缩、索引和分区进行优化的文件格式。 其中最常见的一种格式是 parquet。
 
-    df = spark.read.load('abfss://files@datalakexxxxxxx.dfs.core.windows.net/sales/orders/*.csv', format='csv', schema=orderSchema)
-    display(df.limit(100))
+1. 在包含 Data Lake 文件系统的“文件”选项卡中，返回到 sales 文件夹，以便可以看到 csv、 json 和 parquet 文件夹    。
+2. 选择 parquet 文件夹，然后在工具栏上的“新建 SQL 脚本”列表中，选中“选择前 100 行”  。
+3. 在“文件类型”列表中，选择“Parquet 格式”，然后应用设置以打开查询文件夹中数据的新 SQL 脚本 。 脚本应类似于：
+
+    ```SQL
+    -- This is auto-generated code
+    SELECT
+        TOP 100 *
+    FROM
+        OPENROWSET(
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/parquet/**',
+            FORMAT = 'PARQUET'
+        ) AS [result]
     ```
 
-8. 在结果下，使用“+ 代码”向笔记本添加一个新的代码单元格。 然后在新单元格中，添加以下代码以显示数据帧的架构：
-
-    ```Python
-    df.printSchema()
-    ```
-
-9. 运行新单元格并验证数据帧架构是否与定义的 orderSchema 相匹配。 使用具有自动推断的架构的数据帧时，printSchema 函数非常有用。
-
-## 分析数据帧中的数据
-
-Spark 中的 dataframe 对象类似于 Python 中的 Pandas 数据帧，它包含各种可用于操作、筛选、分组或以其他方式分析其所含数据的函数。
-
-### 筛选数据帧
-
-1. 在笔记本中新增一个代码单元格，并在其中输入以下代码：
-
-    ```Python
-    customers = df['CustomerName', 'Email']
-    print(customers.count())
-    print(customers.distinct().count())
-    display(customers.distinct())
-    ```
-
-2. 运行新的代码单元格，并查看结果。 观察以下详细信息：
-    - 对数据帧执行操作时，结果是一个新数据帧（在本例中，是一个新客户数据帧，它是通过从 df 数据帧中选择特定的列子集来创建的）
-    - 数据帧提供 count 和 distinct 等函数，可用于汇总和筛选它们包含的数据 。
-    - `dataframe['Field1', 'Field2', ...]` 语法是用于定义列子集的快速方法。 还可以使用 select 方法，所以上述代码的第一行可以编写为 `customers = df.select("CustomerName", "Email")`
-
-3. 按如下所示修改代码：
-
-    ```Python
-    customers = df.select("CustomerName", "Email").where(df['Item']=='Road-250 Red, 52')
-    print(customers.count())
-    print(customers.distinct().count())
-    display(customers.distinct())
-    ```
-
-4. 运行修改后的代码来查看已购买 Road-250 Red, 52 产品的客户。 请注意，可以“链接”多个函数，使一个函数的输出成为下一个函数的输入；在这种情况下，由 select 方法创建的数据帧是用于应用筛选条件的 where 方法的源数据帧 。
-
-### 在数据帧中对数据进行聚合和分组
-
-1. 在笔记本中新增一个代码单元格，并在其中输入以下代码：
-
-    ```Python
-    productSales = df.select("Item", "Quantity").groupBy("Item").sum()
-    display(productSales)
-    ```
-
-2. 运行添加的代码单元格，并注意结果显示按产品分组的订单数量之和。 groupBy 方法按“项”对行进行分组，随后将 sum 聚合函数应用于所有剩余的数值列（在本例中为“数量”）
-
-3. 在笔记本中再次新增一个代码单元格，并在其中输入以下代码：
-
-    ```Python
-    yearlySales = df.select(year("OrderDate").alias("Year")).groupBy("Year").count().orderBy("Year")
-    display(yearlySales)
-    ```
-
-4. 运行添加的代码单元格，并注意结果显示每年的销售订单数。 请注意，select 方法包括一个 SQL year 函数，它用于提取 OrderDate 字段的年份部分，然后 alias 方法用于为提取的年份值分配一个列名称 。 接下来，按派生的“年份”列对数据进行分组，并计算每个组中的行计数，最后使用 orderBy 方法对生成的数据帧进行排序。
-
-## 使用 Spark SQL 查询数据
-
-如你所见，dataframe 对象的本机方法能让你非常有效地查询和分析数据。 但是，许多数据分析师更习惯使用 SQL 语法。 Spark SQL 是 Spark 中的 SQL 语言 API，可用于运行 SQL 语句，甚至可将数据保存在关系表中。
-
-### 在 PySpark 代码中使用 Spark SQL
-
-Azure Synapse Studio 笔记本中的默认语言是 PySpark，它是一个基于 Spark 的 Python 运行时。 在此运行时中，可以使用 spark.sql 库将 Spark SQL 语法嵌入到 Python 代码中，并处理表和视图等 SQL 构造。
-
-1. 在笔记本中新增一个代码单元格，并在其中输入以下代码：
-
-    ```Python
-    df.createOrReplaceTempView("salesorders")
-
-    spark_df = spark.sql("SELECT * FROM salesorders")
-    display(spark_df)
-    ```
-
-2. 运行单元格并查看结果。 观察以下情况：
-    - 代码将 df 数据帧中的数据保存为名为 salesorders 的临时视图 。 Spark SQL 支持使用临时视图或永久性表作为 SQL 查询的源。
-    - 然后，使用 spark.sql 方法对 salesorders 视图运行 SQL 查询 。
-    - 查询结果存储在数据帧中。
-
-### 在单元格中运行 SQL
-
-虽然能够将 SQL 语句嵌入到包含 PySpark 代码的单元格中非常有用，但数据分析师通常只想直接使用 SQL。
-
-1. 在笔记本中新增一个代码单元格，并在其中输入以下代码：
+4. 运行代码，注意它将返回与前面浏览的 CSV 文件相同的架构中的销售订单数据。 架构信息嵌入到 parquet 文件中，因此结果中会显示相应的列名称。
+5. 按如下所示修改代码（将 datalakexxxxxxx 替换为 Data Lake Storage 帐户的名称），然后运行代码。
 
     ```sql
-    %%sql
     SELECT YEAR(OrderDate) AS OrderYear,
-           SUM((UnitPrice * Quantity) + Tax) AS GrossRevenue
-    FROM salesorders
+           COUNT(*) AS OrderedItems
+    FROM
+        OPENROWSET(
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/parquet/**',
+            FORMAT = 'PARQUET'
+        ) AS [result]
+    GROUP BY YEAR(OrderDate)
+    ORDER BY OrderYear
+    ```
+
+6. 请注意，结果包括三年的所有订单计数 - BULK 路径中使用的通配符会导致查询返回所有子文件夹中的数据。
+
+    子文件夹反映 parquet 数据中的分区，该技术通常用于优化可并行处理多个数据分区的系统的性能。 分区还可用来筛选数据。
+
+7. 按如下所示修改代码（将 datalakexxxxxxx 替换为 Data Lake Storage 帐户的名称），然后运行代码。
+
+    ```sql
+    SELECT YEAR(OrderDate) AS OrderYear,
+           COUNT(*) AS OrderedItems
+    FROM
+        OPENROWSET(
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/parquet/year=*/',
+            FORMAT = 'PARQUET'
+        ) AS [result]
+    WHERE [result].filepath(1) IN ('2019', '2020')
+    GROUP BY YEAR(OrderDate)
+    ORDER BY OrderYear
+    ```
+
+8. 查看结果，注意它们仅包括 2019 年和 2020 年的销售计数。 实现此过滤的方式是添加 BULK 路径中的分区文件夹值的通配符 (year=) 和基于 OPENROWSET 返回的结果的 filepath 属性的 WHERE 子句（在本例中具有别名 [result]） *\**  。
+
+9. 将脚本命名为“Sales Parquet 查询”，然后发布。 然后关闭脚本窗格。
+
+### 使用 SQL 查询 JSON 文件
+
+JSON 是另一种常用的数据格式，因此有助于实现够查询无服务器 SQL 池中的 .json 文件。
+
+1. 在包含 Data Lake 文件系统的“文件”选项卡中，返回到 sales 文件夹，以便可以看到 csv、 json 和 parquet 文件夹    。
+2. 选择 json 文件夹，然后在工具栏上的“新建 SQL 脚本”列表中，选中“选择前 100 行”  。
+3. 在“文件类型”列表中，选择“文本格式”，然后应用设置以打开查询文件夹中数据的新 SQL 脚本 。 脚本应类似于：
+
+    ```sql
+    -- This is auto-generated code
+    SELECT
+        TOP 100 *
+    FROM
+        OPENROWSET(
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/json/',
+            FORMAT = 'CSV',
+            PARSER_VERSION = '2.0'
+        ) AS [result]
+    ```
+
+    该脚本旨在查询以逗号分隔的 (CSV) 数据，而不是 JSON，因此需要前进行一些修改才能正常使用。
+
+4. 按如下所示修改脚本（将 datalakexxxxxxx 替换为 Data Lake Storage 帐户的名称）以：
+    - 删除分析器版本参数。
+    - 使用字符代码 0x0b 为字段终止符、带引号的字段和行终止符添加参数。
+    - 将结果格式化为包含 JSON 数据行的单个字段，作为 NVARCHAR (MAX) 字符串。
+
+    ```sql
+    SELECT
+        TOP 100 *
+    FROM
+        OPENROWSET(
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/json/',
+            FORMAT = 'CSV',
+            FIELDTERMINATOR ='0x0b',
+            FIELDQUOTE = '0x0b',
+            ROWTERMINATOR = '0x0b'
+        ) WITH (Doc NVARCHAR(MAX)) as rows
+    ```
+
+5. 运行修改的代码，注意结果包含每个订单的 JSON 文档。
+
+6. 按如下所示修改查询（将 datalakexxxxxxx 替换为 Data Lake Storage 帐户的名称），以便它使用 JSON_VALUE 函数从 JSON 数据中提取各个字段值。
+
+    ```sql
+    SELECT JSON_VALUE(Doc, '$.SalesOrderNumber') AS OrderNumber,
+           JSON_VALUE(Doc, '$.CustomerName') AS Customer,
+           Doc
+    FROM
+        OPENROWSET(
+            BULK 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/json/',
+            FORMAT = 'CSV',
+            FIELDTERMINATOR ='0x0b',
+            FIELDQUOTE = '0x0b',
+            ROWTERMINATOR = '0x0b'
+        ) WITH (Doc NVARCHAR(MAX)) as rows
+    ```
+
+7. 将脚本命名为“Sales JSON 查询”，然后发布。 然后关闭脚本窗格。
+
+## 访问数据库中的外部数据
+
+到目前为止，已在 SELECT 查询中使用 OPENROWSET 函数从 Data Lake 中的文件检索数据。 查询已在无服务器 SQL 池的 master 数据库上下文中运行。 此方法适用于初始探索数据，但如果计划创建更复杂的查询，则使用 Synapse SQL 的 PolyBase 功能在数据库中创建引用外部数据位置的对象可能更有效。
+
+### 创建外部数据源
+
+通过在数据库中定义外部数据源，可以使用它引用存储文件的 Data Lake 位置。
+
+1. 在 Synapse Studio 的“开发”页上的“+”菜单中，选择“SQL 脚本”  。
+2. 在新脚本窗格中，添加以下代码（将 datalakexxxxxxx 替换为 Data Lake Storage 帐户的名称）以创建新数据库并向其添加外部数据源。
+
+    ```sql
+    CREATE DATABASE Sales
+      COLLATE Latin1_General_100_BIN2_UTF8;
+    GO;
+
+    Use Sales;
+    GO;
+
+    CREATE EXTERNAL DATA SOURCE sales_data WITH (
+        LOCATION = 'https://datalakexxxxxxx.dfs.core.windows.net/files/sales/'
+    );
+    GO;
+    ```
+
+3. 修改脚本属性以将其名称更改为“创建销售数据库”，然后发布。
+4. 确保脚本已连接到内置 SQL 池和 master 数据库，然后运行 。
+5. 切换回“数据”页，并使用 Synapse Studio 右上角的“&#8635;”按钮刷新页面 。 然后，在“数据”窗格中查看“工作区”选项卡，此时会显示“SQL 数据库”列表  。 展开此列表以验证是否已创建 Sales 数据库。
+6. 展开 Sales 数据库、其 External Resources 文件夹以及其下的 External data sources 文件夹，以查看所创建的 sales_data 外部数据源   。
+7. 在 Sales 数据库的“...”菜单中，选择“新建 SQL 脚本” > “空脚本”   。 然后在新的脚本窗格中，输入并运行以下查询：
+
+    ```sql
+    SELECT *
+    FROM
+        OPENROWSET(
+            BULK 'csv/*.csv',
+            DATA_SOURCE = 'sales_data',
+            FORMAT = 'CSV',
+            PARSER_VERSION = '2.0'
+        ) AS orders
+    ```
+
+    查询使用外部数据源连接到 Data Lake，OPENROWSET 函数现在只需要引用 .csv 文件的相对路径。
+
+8. 按如下所示修改代码，以使用数据源查询 parquet 文件。
+
+    ```sql
+    SELECT *
+    FROM  
+        OPENROWSET(
+            BULK 'parquet/year=*/*.snappy.parquet',
+            DATA_SOURCE = 'sales_data',
+            FORMAT='PARQUET'
+        ) AS orders
+    WHERE orders.filepath(1) = '2019'
+    ```
+
+### 创建外部表
+
+虽然使用外部数据源可以更轻松地访问 Data Lake 中的文件，但使用 SQL 的大多数数据分析师需要处理数据库中的表。 幸运的是，还可以定义外部文件格式和外部表，在数据集表中封装文件的行集。
+
+1. 将 SQL 代码替换为以下语句来定义 CSV 文件的外部数据格式，以及引用 CSV 文件的外部表，并运行：
+
+    ```sql
+    CREATE EXTERNAL FILE FORMAT CsvFormat
+        WITH (
+            FORMAT_TYPE = DELIMITEDTEXT,
+            FORMAT_OPTIONS(
+            FIELD_TERMINATOR = ',',
+            STRING_DELIMITER = '"'
+            )
+        );
+    GO;
+
+    CREATE EXTERNAL TABLE dbo.orders
+    (
+        SalesOrderNumber VARCHAR(10),
+        SalesOrderLineNumber INT,
+        OrderDate DATE,
+        CustomerName VARCHAR(25),
+        EmailAddress VARCHAR(50),
+        Item VARCHAR(30),
+        Quantity INT,
+        UnitPrice DECIMAL(18,2),
+        TaxAmount DECIMAL (18,2)
+    )
+    WITH
+    (
+        DATA_SOURCE =sales_data,
+        LOCATION = 'csv/*.csv',
+        FILE_FORMAT = CsvFormat
+    );
+    GO
+    ```
+
+2. 刷新并展开“数据”窗格中的 External tables 文件夹，并确认已在 Sales 数据库中创建了名为 dbo.orders 的表   。
+3. 在 dbo.orders 表的“...”菜单中，选择“新建 SQL 脚本” > “选择前 100 行”   。
+4. 运行已生成的 SELECT 脚本，并验证它是否从表中检索前 100 行数据，从而引用 Data Lake 中的文件。
+
+    >注意：应始终选择最适合你的特定需求和使用场景的方法。 有关更多详细信息，可查看[如何在 Azure Synapse Analytics 中通过无服务器 SQL 池使用 OPENROWSET](https://learn.microsoft.com/en-us/azure/synapse-analytics/sql/develop-openrowset) 和[在 Azure Synapse Analytics 中使用无服务器 SQL 池访问外部存储](https://learn.microsoft.com/en-us/azure/synapse-analytics/sql/develop-storage-files-overview?tabs=impersonation)文章。
+
+## 可视化查询结果
+
+现在，你已了解了使用 SQL 查询来查询 Data Lake 中文件的各种方法，还可以分析这些查询的结果，以便深入了解数据。 通常，通过在图表中可视化查询结果更容易发现见解；在 Synapse Studio 查询编辑器中使用集成图表功能可以轻松进行可视化。
+
+1. 在“开发”页上，新建一个空的 SQL 查询。
+2. 确保脚本已连接到内置 SQL 池和 Sales 数据库 。
+3. 输入并运行下面的 SQL 代码：
+
+    ```sql
+    SELECT YEAR(OrderDate) AS OrderYear,
+           SUM((UnitPrice * Quantity) + TaxAmount) AS GrossRevenue
+    FROM dbo.orders
     GROUP BY YEAR(OrderDate)
     ORDER BY OrderYear;
     ```
 
-2. 运行单元格并查看结果。 观察以下情况：
-    - 单元格开头的 `%%sql` 行（称为 magic）指示应使用 Spark SQL 语言运行时来运行此单元格中的代码，而不是 PySpark。
-    - SQL 代码引用以前使用 PySpark 创建的 salesorder 视图。
-    - SQL 查询的输出将自动显示为单元格下的结果。
+4. 在“结果”窗格中，选择“图表”并查看为你创建的图表；该图表应为折线图 。
+5. 将“类别列”更改为 OrderYear，以便折线图显示 2019 年到 2021 年三年内的收入趋势 ：
 
-> 注意：有关 Spark SQL 和数据帧的详细信息，请参阅 [Spark SQL 文档](https://spark.apache.org/docs/2.2.0/sql-programming-guide.html)。
+    ![按年显示收入的折线图](./images/yearly-sales-line.png)
 
-## 使用 Spark 直观呈现数据
+6. 将“图表类型”切换为“柱形图”，以柱形图的形式显示年度收入 ：
 
-众所周知，一张图片胜过千言万语，而图表通常胜过千行数据。 虽然 Azure Synapse Analytics 中的笔记本包含一个内置图表视图，用于从数据帧或 Spark SQL 查询显示的数据，但它并非专为全面的图表而设计。 但是，可以使用 Python 图形库（如 matplotlib 和 seaborn）根据数据帧中的数据创建图表 。
+    ![按年显示收入的柱形图](./images/yearly-sales-column.png)
 
-### 以图表形式查看结果
-
-1. 在笔记本中新增一个代码单元格，并在其中输入以下代码：
-
-    ```sql
-    %%sql
-    SELECT * FROM salesorders
-    ```
-
-2. 运行代码并观察它是否从之前创建的 salesorders 视图返回数据。
-3. 在单元格下方的结果部分中，将“视图”选项从“表格”更改为“图表”  。
-4. 使用图表右上角的“视图选项”按钮显示图表的选项窗格。 然后按如下方式设置选项并选择“应用”：
-    - **图表类型**：条形图
-    - **键**：项
-    - **值**：数量
-    - **序列组**：留空
-    - **聚合**：Sum
-    - **堆积**：未选中
-
-5. 验证图表是否如下所示：
-
-    ![按订单总数排列的产品条形图](./images/notebook-chart.png)
-
-### matplotlib 入门
-
-1. 在笔记本中新增一个代码单元格，并在其中输入以下代码：
-
-    ```Python
-    sqlQuery = "SELECT CAST(YEAR(OrderDate) AS CHAR(4)) AS OrderYear, \
-                    SUM((UnitPrice * Quantity) + Tax) AS GrossRevenue \
-                FROM salesorders \
-                GROUP BY CAST(YEAR(OrderDate) AS CHAR(4)) \
-                ORDER BY OrderYear"
-    df_spark = spark.sql(sqlQuery)
-    df_spark.show()
-    ```
-
-2. 运行代码并观察它是否返回包含年收入的 Spark 数据帧。
-
-    若要将数据可视化为图表，要首先使用 matplotlib Python 库。 此库是其他许多库所基于的核心绘图库，在创建图表方面提供了极大的灵活性。
-
-3. 在笔记本中新增一个代码单元格，并在其中添加以下代码：
-
-    ```Python
-    from matplotlib import pyplot as plt
-
-    # matplotlib requires a Pandas dataframe, not a Spark one
-    df_sales = df_spark.toPandas()
-
-    # Create a bar plot of revenue by year
-    plt.bar(x=df_sales['OrderYear'], height=df_sales['GrossRevenue'])
-
-    # Display the plot
-    plt.show()
-    ```
-
-4. 运行单元格并查看结果，结果中包含每年总收入的柱形图。 请注意用于生成此图表的代码的以下功能：
-    - matplotlib 库需要 Pandas 数据帧，因此需要将 Spark SQL 查询返回的 Spark 数据帧转换为此格式 。
-    - matplotlib 库的核心是 pyplot 对象 。 这是大多数绘图功能的基础。
-    - 默认设置会生成一个可用图表，但它有很大的自定义空间
-
-5. 修改代码以绘制图表，如下所示：
-
-    ```Python
-    # Clear the plot area
-    plt.clf()
-
-    # Create a bar plot of revenue by year
-    plt.bar(x=df_sales['OrderYear'], height=df_sales['GrossRevenue'], color='orange')
-
-    # Customize the chart
-    plt.title('Revenue by Year')
-    plt.xlabel('Year')
-    plt.ylabel('Revenue')
-    plt.grid(color='#95a5a6', linestyle='--', linewidth=2, axis='y', alpha=0.7)
-    plt.xticks(rotation=45)
-
-    # Show the figure
-    plt.show()
-    ```
-
-6. 重新运行代码单元格并查看结果。 图表现在包含更多信息。
-
-    严格来说，绘图包含图。 在前面的示例中，图是隐式创建的；但也可以显式创建它。
-
-7. 修改代码以绘制图表，如下所示：
-
-    ```Python
-    # Clear the plot area
-    plt.clf()
-
-    # Create a Figure
-    fig = plt.figure(figsize=(8,3))
-
-    # Create a bar plot of revenue by year
-    plt.bar(x=df_sales['OrderYear'], height=df_sales['GrossRevenue'], color='orange')
-
-    # Customize the chart
-    plt.title('Revenue by Year')
-    plt.xlabel('Year')
-    plt.ylabel('Revenue')
-    plt.grid(color='#95a5a6', linestyle='--', linewidth=2, axis='y', alpha=0.7)
-    plt.xticks(rotation=45)
-
-    # Show the figure
-    plt.show()
-    ```
-
-8. 重新运行代码单元格并查看结果。 图确定绘图的形状和大小。
-
-    图可以包含多个子图，每个子图都其自己的轴上。
-
-9. 修改代码以绘制图表，如下所示：
-
-    ```Python
-    # Clear the plot area
-    plt.clf()
-
-    # Create a figure for 2 subplots (1 row, 2 columns)
-    fig, ax = plt.subplots(1, 2, figsize = (10,4))
-
-    # Create a bar plot of revenue by year on the first axis
-    ax[0].bar(x=df_sales['OrderYear'], height=df_sales['GrossRevenue'], color='orange')
-    ax[0].set_title('Revenue by Year')
-
-    # Create a pie chart of yearly order counts on the second axis
-    yearly_counts = df_sales['OrderYear'].value_counts()
-    ax[1].pie(yearly_counts)
-    ax[1].set_title('Orders per Year')
-    ax[1].legend(yearly_counts.keys().tolist())
-
-    # Add a title to the Figure
-    fig.suptitle('Sales Data')
-
-    # Show the figure
-    plt.show()
-    ```
-
-10. 重新运行代码单元格并查看结果。 图包含代码中指定的子图。
-
-> 注意：若要详细了解如何使用 matplotlib 绘图，请参阅 [matplotlib 文档](https://matplotlib.org/)。
-
-### 使用 seaborn 库
-
-虽然 matplotlib 可创建多种类型的复杂图表，但它可能需要一些复杂的代码才能获得最佳结果。 因此，多年来，许多新库都建立在 matplotlib 的基础之上，移除了其复杂性，增强了其功能。 seaborn 就是这样的一种库。
-
-1. 在笔记本中新增一个代码单元格，并在其中输入以下代码：
-
-    ```Python
-    import seaborn as sns
-
-    # Clear the plot area
-    plt.clf()
-
-    # Create a bar chart
-    ax = sns.barplot(x="OrderYear", y="GrossRevenue", data=df_sales)
-    plt.show()
-    ```
-
-2. 运行代码并观察它是否使用 seaborn 库显示条形图。
-3. 在笔记本中新增一个代码单元格，并在其中输入以下代码：
-
-    ```Python
-    # Clear the plot area
-    plt.clf()
-
-    # Set the visual theme for seaborn
-    sns.set_theme(style="whitegrid")
-
-    # Create a bar chart
-    ax = sns.barplot(x="OrderYear", y="GrossRevenue", data=df_sales)
-    plt.show()
-    ```
-
-4. 运行代码，注意 seaborn 能够让你为绘图设置一致的颜色主题。
-
-5. 在笔记本中新增一个代码单元格，并在其中输入以下代码：
-
-    ```Python
-    # Clear the plot area
-    plt.clf()
-
-    # Create a bar chart
-    ax = sns.lineplot(x="OrderYear", y="GrossRevenue", data=df_sales)
-    plt.show()
-    ```
-
-6. 运行代码，以折线图的形式查看年收入。
-
-> 注意：若要详细了解如何使用 seaborn 绘图，请参阅 [seaborn 文档](https://seaborn.pydata.org/index.html)。
+7. 在查询编辑器中试验图表功能。 它提供了一些可以在以交互方式浏览数据时使用的基本图表功能，并且你可以将图表另存为图像以包含在报表中。 但是，功能与 Microsoft Power BI 等企业数据可视化工具相比是有限的。
 
 ## 删除 Azure 资源
 
@@ -425,8 +383,8 @@ Azure Synapse Studio 笔记本中的默认语言是 PySpark，它是一个基于
 
 1. 关闭 Synapse Studio 浏览器选项卡并返回到 Azure 门户。
 2. 在 Azure 门户的“主页”上，选择“资源组”。
-3. 选择 Synapse Analytics 工作区的 dp500-*xxxxxxx* 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池。
+3. 选择 Synapse Analytics 工作区的 dp203-*xxxxxxx* 资源组（不是受管理资源组），并确认是否它包含 Synapse 工作区和你的工作区的存储帐户。
 4. 在资源组的“概述”页的顶部，选择“删除资源组”。
-5. 输入 dp500-*xxxxxxx* 资源组名称以确认要删除该资源组，然后选择“删除” 。
+5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” 。
 
     几分钟后，将删除 Azure Synapse 工作区资源组及其关联的托管工作区资源组。
