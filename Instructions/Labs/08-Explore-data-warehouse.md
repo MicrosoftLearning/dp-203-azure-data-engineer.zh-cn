@@ -56,7 +56,7 @@ Azure Synapse Analytics 工作区提供用于管理数据和数据处理运行�
 
 ### 启动专用 SQL 池
 
-1. 脚本完成后，在 Azure 门户中转到创建的 dp500-*xxxxxxx* 资源组，然后选择 Synapse 工作区。
+1. 脚本完成后，在 Azure 门户中转到创建的 dp203-xxxxxxx 资源组，然后选择 Synapse 工作区。
 2. 在 Synapse 工作区“概述”页的“打开 Synapse Studio”卡中，选择“打开”，以在新浏览器标签页中打开 Synapse Studio；如果出现提示，请进行登录  。
 3. 在 Synapse Studio 左侧，使用 &rsaquo;&rsaquo; 图标展开菜单，这将显示 Synapse Studio 中用于管理资源和执行数据分析任务的不同页面。
 4. 在“管理”页上，确保选择了“SQL 池”选项卡，然后选择 sql*xxxxxxx* 专用 SQL 池，并使用其 &#9655; 图标启动它；确认在出现系统提示时进行恢复   。
@@ -304,8 +304,8 @@ Azure Synapse Analytics 工作区提供用于管理数据和数据处理运行�
 
 1. 关闭 Synapse Studio 浏览器选项卡并返回到 Azure 门户。
 2. 在 Azure 门户的“主页”上，选择“资源组”。
-3. 选择 Synapse Analytics 工作区的 dp500-*xxxxxxx* 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的专用 SQL 池。
+3. 选择 Synapse Analytics 工作区的 dp203-xxxxxxx 资源组（不是托管资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的专用 SQL 池。
 4. 在资源组的“概述”页的顶部，选择“删除资源组”。
-5. 输入 dp500-*xxxxxxx* 资源组名称以确认要删除该资源组，然后选择“删除” 。
+5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” 。
 
     几分钟后，将删除 Azure Synapse 工作区资源组及其关联的托管工作区资源组。
