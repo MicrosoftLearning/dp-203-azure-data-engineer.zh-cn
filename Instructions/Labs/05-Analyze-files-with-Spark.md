@@ -55,7 +55,7 @@ Apache Spark 是用于分布式数据处理的开放源代码引擎，广泛用�
 
 ### 查看 Data Lake 中的文件
 
-1. 脚本完成后，在 Azure 门户中转到创建的 dp500-*xxxxxxx* 资源组，然后选择 Synapse 工作区。
+1. 脚本完成后，在 Azure 门户中转到创建的 dp203-*xxxxxxx* 资源组，然后选择 Synapse 工作区。
 2. 在 Synapse 工作区“概述”页的“打开 Synapse Studio”卡中，选择“打开”，以在新浏览器标签页中打开 Synapse Studio；如果出现提示，请进行登录  。
 3. 在 Synapse Studio 左侧，使用 &rsaquo;&rsaquo; 图标展开菜单，这将显示 Synapse Studio 中用于管理资源和执行数据分析任务的不同页面。
 4. 在“管理”页上，选择“Apache Spark 池”选项卡，请注意工作区中已预配名称类似于 spark*xxxxxxx* 的 Spark 池  。 稍后，你将使用此 Spark 池从工作区的 Data Lake Storage 的文件中加载和分析数据。
@@ -424,8 +424,8 @@ Azure Synapse Studio 笔记本中的默认语言是 PySpark，它是一个基于
 
 1. 关闭 Synapse Studio 浏览器选项卡并返回到 Azure 门户。
 2. 在 Azure 门户的“主页”上，选择“资源组”。
-3. 选择 Synapse Analytics 工作区的 dp500-*xxxxxxx* 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池。
+3. 选择 Synapse Analytics 工作区的 dp203-xxxxxxx 资源组（不是受管理资源组），并确认它包含 Synapse 工作区、存储帐户和工作区的 Spark 池**。
 4. 在资源组的“概述”页的顶部，选择“删除资源组”。
-5. 输入 dp500-*xxxxxxx* 资源组名称以确认要删除该资源组，然后选择“删除” 。
+5. 输入 dp203-xxxxxxx 资源组名称以确认要删除该资源组，然后选择“删除” 。
 
     几分钟后，将删除 Azure Synapse 工作区资源组及其关联的托管工作区资源组。
