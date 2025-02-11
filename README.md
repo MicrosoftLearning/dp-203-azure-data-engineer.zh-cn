@@ -1,3 +1,11 @@
+#README
+
+We've turned off the ability to report issues directly on this repo and do not monitor PRs.
+
+Provide feedback here: https://aka.ms/provide-feedback
+
+Or, if you are a trainer with a microsoft.com email address, please create a ticket in AzDO.
+
 # DP-203：Azure 数据工程师
 
 此存储库包含 Microsoft 官方课件中动手练习的说明和资产，用于支持 [Microsoft Certified: Azure Data Engineer Associate](https://learn.microsoft.com/certifications/azure-data-engineer/) 认证。 这些练习旨在补充 [Microsoft Learn](https://learn.microsoft.com/training) 上的相关培训模块，这些练习的<u>一部分</u>由官方 [DP-203T00：Microsoft Azure 上的数据工程](https://learn.microsoft.com/training/courses/dp-203t00)讲师引导式培训课程中的动手实验室构成。
